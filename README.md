@@ -20,7 +20,7 @@ Advances in 3D culture of intestinal tissues obtained through biopsy or generate
 
 ## How to use this protocol
 
-This protocol is on GitHub for a reason. We invite you to ask questions, make suggestions, and engage with the science presented here. Use the GitHub "Issues" feature to post questions and comments that you want to make available for public discussion. Contact the authors if you would like to be added as a contributor to this repository. Or fork this repository and make your own changes
+This protocol is on GitHub for a reason. We invite you to ask questions, make suggestions, and engage with the science presented here. Use the GitHub "Issues" feature to post questions and comments that you want to make available for public discussion. Contact the authors if you would like to be added as a contributor to this repository. Submit a pull request. Or fork this repository and make your own changes
 
 We suspect that the majority of users will want to simply download the PDF version of the manuscript. Go for it!
 
