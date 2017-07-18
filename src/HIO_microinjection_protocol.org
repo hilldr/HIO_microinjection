@@ -1,0 +1,693 @@
+#    -*- mode: org; word-wrap: t; truncate-lines: nil -*-
+#+LATEX_HEADER:\usepackage[svgnames]{xcolor}
+#+LATEX_HEADER: \usepackage{helvet}
+#+LATEX_HEADER:\renewcommand{\familydefault}{\sfdefault}
+#+LATEX_HEADER:\usepackage[backend=biber,citestyle=nature,bibstyle=nature,hyperref=true,backref=false,url=false,natbib=true]{biblatex}
+#+LATEX_HEADER:\addbibresource{bibliography.bib}
+#+LATEX_HEADER:\usepackage{sectsty}
+#+LATEX_HEADER:\usepackage{siunitx}
+#+LATEX_HEADER:\sisetup{detect-all}
+#+LATEX_HEADER:\sectionfont{\normalfont\fontfamily{phv}\bfseries}
+#+LATEX_HEADER:\subsectionfont{\normalfont\fontfamily{phv}\selectfont}
+#+LATEX_HEADER:\subsubsectionfont{\normalfont\fontfamily{phv}\selectfont}
+#+LATEX_HEADER:\subsubsectionfont{\normalfont\fontfamily{phv}\selectfont}
+#+LATEX_HEADER:\paragraphfont{\normalfont\fontfamily{phv}\selectfont}
+#+LATEX_HEADER:\subparagraphfont{\normalfont\fontfamily{phv}\selectfont}
+#+LATEX_HEADER:\usepackage[tikz]{bclogo}
+#+LATEX_HEADER:\usepackage{stackengine}
+#+LATEX_HEADER:\usepackage{scalerel}
+#+LATEX_HEADER:\usepackage[svgnames]{xcolor}
+#+LATEX_HEADER:\newcommand\dangersign[1][4ex]{\renewcommand\stacktype{L}\scaleto{\stackon[1pt]{\color{red}$\triangle$}{\tiny !}}{#1}}
+#+LATEX_HEADER:\usepackage{graphicx}
+#+LATEX_HEADER:\usepackage{wrapfig}
+#+LATEX_HEADER:\usepackage{tikz}
+#+LATEX_HEADER:\def\checkmark{\tikz\fill[scale=0.3](0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;} 
+#+LATEX_HEADER:\usepackage{fancyhdr}
+#+LATEX_HEADER:\pagestyle{fancy}
+# update the version here when significant changes are made
+#+LATEX_HEADER:\lhead{\ttfamily{v0.9 \date{\today}}}
+#+LATEX_HEADER:\rhead{}
+#+LATEX_HEADER:\renewcommand{\headrulewidth}{0pt}
+#+TITLE: *Real-time measurement of epithelial barrier permeability in human intestinal organoids*
+#+AUTHOR: David R. Hill^{1*}, Sha Huang^{1}, Yu-Hwai Tsai^{1}, Jason R. Spence^{1,2}, and Vincent B. Young^{1,3} @@latex:\\\\@@^{1}Department of Internal Medicine, Division of Gastroenterology@@latex:\\@@^{2}Department of Cell and Developmental Biology@@latex:\\@@^{3}Department of Internal Medicine, Division of Infectious Disease@@latex:\\@@ University of Michigan, Ann Arbor MI 48109@@latex:\\\\@@^{*}Corresponding author (Email: hilldr@med.umich.edu; Tel: (440) 832 0000)
+#+OPTIONS: toc:nil H:4 num:4 \n:t
+
+#+begin_src emacs-lisp :results silent :exports results :eval yes
+;; Execute this code block in EMACS using C-c C-C prior to initial export
+;; see 'customize.el' for options included in LaTeX_CLASS: cell-paper
+;; this block is intended for LaTeX export ONLY - make pdf/docx with makefile
+(set (make-local-variable 'org-latex-with-hyperref) nil) ; remove \hypersetup{...}
+;;(set (make-local-variable 'org-latex-title-command) nil) ; remove \maketitle
+(set (make-local-variable 'reftex-cite-format) "\\supercite{%l}") ;set reftex citation to parenthetical format
+(set (make-local-variable 'reftex-default-bibliography) '("bibliography.bib"))
+(set (make-local-variable 'org-babel-inline-result-wrap) "%s") ; print inline code result in native font
+(ispell-change-dictionary "american")
+#+end_src
+
+#+begin_src makefile :tangle ../makefile :results silent :exports none :eval no
+## LaTeX Makefile
+## define shorthand file names for text
+TEXT=./src/HIO_microinjection_protocol
+FINALTEXT=HIO_microinjection_protocol
+
+## output to PDF
+pdf: $(FINALTEXT).pdf
+$(FINALTEXT).pdf: $(TEXT).tex \
+	./src/bibliography.bib \
+	./results/figure4.pdf \
+	./img/figure1.pdf \
+	./img/figure2.pdf \
+	./img/figure3.pdf
+	sed -i 's/{\\bfseries\\sffamily }/{\\sffamily }/g' $(TEXT).tex
+	sed -i 's/ / /g' ./src/bibliography.bib #eliminates a common unicode space character bib file
+	pdflatex -output-directory src $(TEXT)
+	pdflatex -output-directory src $(TEXT)
+	cp ./src/bibliography.bib ./
+	biber $(TEXT)
+	pdflatex -output-directory src $(TEXT)
+	pdflatex -output-directory src $(TEXT)
+	mv $(TEXT).pdf $(FINALTEXT).pdf
+	rm *.bib
+
+## output to DOCX
+docx: $(FINALTEXT).docx
+$(FINALTEXT).docx: $(TEXT).tex
+	cp $(TEXT).tex $(TEXT)_docx_reformat.tex
+	sed -i 's/pdf/png/g' $(TEXT)_docx_reformat.tex # use png versions of figures
+	sed -i 's/\\(\\kappa\\)/κ/g' $(TEXT)_docx_reformat.tex
+	sed -i 's/\\(\\beta\\)/β/g' $(TEXT)_docx_reformat.tex
+	sed -i 's/\\(\\alpha\\)/α/g' $(TEXT)_docx_reformat.tex
+	sed -i 's/\\(\\mu\\)/μ/g' $(TEXT)_docx_reformat.tex
+	sed -i 's/\\(\\gamma\\)/γ/g' $(TEXT)_docx_reformat.tex
+	sed -i 's/{\"i}/ï/g' $(TEXT)_docx_reformat.tex
+	sed -i 's/\\pm/±/g' $(TEXT)_docx_reformat.tex
+	sed -i 's/\num{//g' $(TEXT)_docx_reformat.tex
+	sed -i 's/\\(_{\\text{2}}\\)/₂/g' $(TEXT)_docx_reformat.tex
+	sed -i 's/\\(^{\\text{2}}\\)/²/g' $(TEXT)_docx_reformat.tex
+	sed -i 's/\\(^{\\text{1}}\\)/¹/g' $(TEXT)_docx_reformat.tex
+	sed -i 's/\\(^{\\text{3}}\\)/³/g' $(TEXT)_docx_reformat.tex	
+	pandoc --bibliography=./src/bibliography.bib --filter pandoc-citeproc  --csl=./src/nature-no-et-al.csl --number-section $(TEXT)_docx_reformat.tex -o $(FINALTEXT).docx
+
+## unarchive example images
+./data/raw_img: ./data/raw_img.tar.gz
+	tar -xvzf ./data/raw_img.tar.gz -C ./data/
+
+## image processing
+./results/threshold_results.txt: ./src/thresholdmeasure.ijm \
+	./data/raw_img \
+	./src/imagej-threshold-quant.sh
+	cd src && ./imagej-threshold-quant.sh
+
+## R analysis
+./results/figure4.pdf: ./src/image_analysis.R ./results/threshold_results.txt
+	R -e "setwd('./src/'); source('image_analysis.R')"
+
+.PHONY: clean
+clean:
+	cd src && rm *.aux *.blg *.out *.bbl *.log
+#+end_src
+
+#+LATEX:\section*{SUMMARY}
+This protocol describes the measurement of epithelial barrier permeability in real-time following pharmacologic treatment in human intestinal organoids using fluorescent microscopy and live cell microscopy.
+
+#+LATEX:\section*{ABSTRACT}
+Advances in 3D culture of intestinal tissues obtained through biopsy or generated from pluripotent stem cells via directed differentiation have resulted in sophisticated /in vitro/ models of the intestinal mucosa. Leveraging these emerging model systems will require adaptation of tools and techniques developed for 2D culture systems and animals. Here, we describe a technique for measuring epithelial barrier permeability in human intestinal organoids in real-time. This is accomplished by microinjection of fluorescently-labeled dextran and imaging on an inverted microscope fitted with epifluorescent filters. Real-time measurement of the barrier permeability in intestinal organoids facilitates the generation of high-resolution temporal data in human intestinal epithelial tissue, although this technique is can also be applied to fixed timepoint imaging approaches. This protocol is readily adaptable for the measurement of epithelial barrier permeability following exposure to phamacologic agents, bacterial products or toxins, or live microorganisms.  With minor modifications, this protocol can also serve as a general primer on microinjection of intestinal organoids and users may choose to supplement this protocol with additional or alternative downstream applications following microinjection.
+
+#+LATEX:\section*{INTRODUCTION}
+The intestinal epithelium forms a selective barrier that mediates the directional transport of nutrients, H_{2}O, ions, and waste products while minimizing nonspecific diffusion-mediated exchange of other particles between the lumen and the mesenchymal tissue or blood supply \supercite{standring2008gray,Buckley:2017}. The nonspecific permeability of the intestinal epithelial barrier has long been considered a key functional parameter in both health and disease \supercite{Clayburgh:2004,Turner:2009,Bischoff:2014,Odenwald:2017} that reflects the rate of diffusion of small molecules across the epithelium via the paracellular space. Measurement of epithelial barrier permeability can be conducted in animal models \supercite{Krugliak:1994} and in human patients \supercite{Johnston:2001} through the ingestion of lactulose, which has no specific transporter in the gastrointestinal tract, and the subsequent collection and measurement of lactulose concentrations in peripheral blood. Alternate ingested markers of barrier function such as fluorescently labeled carbohydrates are also available \supercite{Salles_Teixeira:2014,Wang:2015}. This approach has been adapted for intestinal epithelial cell cultures grown on Transwell supports \supercite{Donato:2011}, a simplified approach that allows for greater experimental control but has also been criticized as a poor predictor of /in vivo/ permeability  due to the absence of differentiated epithelial subtypes and tissue structure \supercite{Balimane:2005}. Ussing chambers represent yet another approach and allow for the measurement of epithelial barrier function in whole intestinal mucosa /ex vivo/ \supercite{Vidyasagar:2016}. Application of this technique is frequently limited by tissue availability and condition \supercite{Vidyasagar:2016,Herrmann:2016}. Thus new methods which balance reproducibility and throughput with physiologic relevance are necessary.
+
+Recent developments in /in vitro/ organogenesis have led to the adoption of 3D tissue culture model systems as a sophisticated platform for recapitulating the dynamics of complex tissues \supercite{Sato:2009,Clevers:2016,Drost:2016,Rookmaaker:2015,Spence:2011,Aurora:2016,Dedhia:2016,Dye:2015,Dye:2016}. In particular, human pluripotent stem cell (hPSC) derived human intestinal organoids (HIOs) \supercite{Spence:2011,McCracken:2011} have emerged as a reproducible and experimentally tractable model system for the study of host-microbial interactions and epithelial barrier dynamics \supercite{Leslie:2015,Leslie:2016,Zachos:2016, Hill:2017}. Similarly, human tissue-derived organoids (also know an enteroids) can be derived from a simple biopsy procedure and can be used as a tractable system to study human physiology and disease \supercite{Sato:2009,Miyoshi:2013,Sato:2011} Microinjection of human intestinal organoids allows for the delivery of experimental compounds \supercite{Leslie:2015} or live microbes \supercite{Engevik:2013, Leslie:2015,Forbester:2015,Engevik:2015} to the apical epithelial surface of the organoid lumen. Leslie and Huang /et al./\supercite{Leslie:2015} recently adapted this technique to measure barrier permeability in HIOs microinjected with fluorescein isothiocyanate (FITC) labeled dextran following exposure to bacterial toxins.
+
+This protocol is intended as a guide for the measurement of epithelial barrier permeability in hPSC-derived HIOs and tissue-derived HIOs using fluorescent microscopy. With minor modifications, it can also serve as a general primer on microinjection of HIOs with experimental compounds. Users may supplement this protocol with additional or alternative downstream applications after microinjection.
+
+#+LATEX:\section*{PROTOCOL}
+* Microinjector setup 
+** Gather the materials listed in "Required Reagents". 
+** Place the micromanipulator, dissecting scope, and light source in the biosafety cabinet. An example of a complete microinjector assembly is shown in *Figure 1*
+#+BEGIN_LATEX
+\begin{figure}
+\centering
+\includegraphics[width=0.9\linewidth]{./img/figure1.pdf}
+\caption{Basic layout of a microinjector and micromanipulator for HIO microinjection.}
+\end{figure}
+#+END_LATEX
+** Position the dissecting scope so that the eye piece can be used through the access port.
+#+LATEX: \begin{bclogo}[logo=\bcinfo, couleurBarre=Black, noborder=true, couleur=gray!10]{     Alternate setup}
+A clean bench with positive air flow system may be used in place of a biosafety cabinet with microscope access points.
+#+LATEX: \end{bclogo}
+** Assemble the micromanipulator on the right side of the microscope and adjust so that the controls can be easily reached and adjusted. The micromanipulator should be mounted on an iron plate or otherwise stabilized. 
+#+LATEX: \begin{bclogo}[logo=\bcinfo, couleurBarre=Black, noborder=true, couleur=gray!10]{     Lefties}
+Left-handed users may want to place the micromanipulator to the left of the dissecting scope.
+#+LATEX: \end{bclogo}
+** Mount the Micropipette Holder to the micromanipulator arm and connect the analog tubing. 
+** Fill the 10 ml glass syringe with approximately 5-7 ml of sterile mineral oil.
+** Connect the 10ml glass syringe filled with mineral oil to the open end of the analog tubing. Place the glass syringe to the left of the dissecting scope, opposite from the micromanipulator.
+** Gently depress the syringe, pushing mineral oil through the tubing. Flush 10-20 drops of mineral oil from the tip of the micropipette holder. This step removes all air from the tubing and should be performed before each microinjection session.
+** Clean the microinjection setup with 70% ethanol or other disinfectant prior to experimental use. Avoid prolonged exposure to disinfectants containing bleach, which may corrode the microinjection equipment.
+* Preparation for microinjection
+
+** 24 hours prior to microinjection: 
+*** Prepare FITC dextran solution by re-suspending FITC dextran at a concentration of 2 mg/ml in sterile PBS or saline. Prepare a total volume of > 250 \mu{}L
+#+LATEX: \begin{bclogo}[logo=\bcinfo, couleurBarre=Black, noborder=true, couleur=gray!10]{     FITC dextran concentration}
+Higher or lower concentrations of FITC-dextran may be used, ranging from approximately 0.1 - 10 mg/ml. Adjust the concentration of FITC-dextran to suit downstream the imaging application.
+#+LATEX: \end{bclogo}
+
+*** Setup organoid cultures on 4- or 8-well glass chamber slides or other culture vessel suitable for live microscopy, with up to 4-6 HIOs per well, embedded in 50 \mu{}l matrigel and cultured in ENR media. Take care to space the organoids evenly so as to avoid capturing multiple HIOs in a single microscopic field during real-time imaging analysis.
+#+LATEX: \begin{bclogo}[logo=\bcinfo, couleurBarre=Black, noborder=true, couleur=gray!10]{     Use of tissue-derived HIOs}
+This protocol was developed using stem-cell derived HIOs and the representative results (see below) demonstrate the use of this tissue culture model. However, the same protocol is easily adapted to tissue-derived intestinal epithelial organoids \supercite{Sato:2009,Miyoshi:2013}. A representative image demonstrating microinjection of tissue-derived intestinal epithelial organoids is shown in *Figure 3*. Tissue-derived HIOs are typically smaller than PSC-derived HIOs and lack the supporting mesenchymal basolateral cell structure\supercite{Sato:2009,Miyoshi:2013,Sato:2011}. Microinjection of tissue-derived HIOs may require a greater degree of technical ability and experience. The degree to which epithelial barrier permeability data obtained using tissue-derived HIOs may correlate with hPSC-derived HIOs is unknown. 
+#+LATEX: \end{bclogo}
+
+** At 30 minutes prior to microinjection, turn on the biosafety cabinet and raise the glass shield to the optimal working height
+** Before removing your HIOs from culture perform the following tasks:
+*** Remove all unnecessary items from the biosafety cabinet. Clutter increases the risk of spills or other accidents when working in confined spaces.
+*** Spray and thoroughly clean the work surface with 70% ethanol or other disinfectant. Wipe clean using a paper towel. 
+*** Check the level of mineral oil in the glass syringe attached to the microinjector. If there is less than 3 mL of mineral oil remaining unscrew the syringe and refill inside the biosafety cabinet, being careful to avoid introducing bubbles. Do not fill more than 7 ml.
+*** Turn on the lamp to illuminate the dissecting scope. Adjust the eyepiece for personal comfort.
+*** Position the micromanipulator to the right of the dissecting scope. The micromanipulator is secured to an iron plate using a magnetic stand. Switch the magnetic stand to the OFF position to adjust the position of the micromanipulator and secure the stand to the iron plate by setting the magnetic stand to the ON position.
+*** Microcapillary installation
+**** Retrieve a single glass filament from the 15 ml tube next to the micropippette puller.
+**** Thread the glass filament through the copper heating coil of the micropippette puller. See *Figure 2* for a guide to preparing the micropippette puller.
+
+#+BEGIN_LATEX
+\begin{figure}
+\centering
+\includegraphics[width=0.6\linewidth]{./img/figure2.pdf}
+\caption{Sutter Instrument Co. P-30 Micropipette puller. The copper heating coil \textbf{hc}, top clamp \textbf{c1}, bottom clamp (\textbf{c2}), puller arm (\textbf{pa}), heat selection toggle (\textbf{ht}) are identified by the arrows. The correct setting for HEAT 1 and PULL are indicated in red text. The \textbf{inset} shows a correctly mounted glass microcapillary ready for heating.}
+\end{figure}
+#+END_LATEX
+
+**** Secure the glass filament using the clamps.
+**** Position the filament so that the copper heating coil is approximately in the middle of the glass filament. This will ensure that the puller generates two usable microinjection needles from each glass filament.
+**** Tighten the top clamp first, making sure that the glass capillary is secured within the notched grove to prevent breakage.
+**** Extend the puller arm to its maximum vertical position before tightening the bottom clamp. */This step is essential/*. Failure to fully extend the puller arm will result in irregular separation of the two sections of the glass filament.
+**** Check the settings on the heating and pulling mechanism. Heat #1 should be selected with the toggle. HEAT #1 should read 990 and PULL should be set at 059.
+**** Turn on the instrument using the On/Off toggle.
+**** Close the protective plexiglass shield and press the PULL button on the bottom right face of the puller. The copper coil will begin to heat and will glow bright orange. As the temperature rises, the glass capillary will begin to stretch and eventually separate. Upon separation of the two ends of the glass filament, the instrument will power down.@@latex:\\@@ 
+#+LATEX: \begin{bclogo}[logo=\dangersign, couleurBarre=red, noborder=true, couleur=yellow!20]{     DANGER: Extreme heat} 
+The copper coil is extremely hot. Stand clear and wait approximately 30 s after separation of the glass filaments before handling. 
+#+LATEX: \end{bclogo}
+**** Being careful to avoid touching the copper coil, remove a one of the glass microinjection capillaries. The capillary should have a very fine point. Handle the capillary carefully with gloves and immediately proceed to the biosafety cabinet containing the microinjector setup. @@latex:\\@@
+#+LATEX: \begin{bclogo}[logo=\dangersign, couleurBarre=red, noborder=true, couleur=yellow!20]{     DANGER: Sharp point} 
+The glass microcapillary is extremely sharp. Handle with care.
+#+LATEX: \end{bclogo}
+**** Insert the blunt end of the pulled microcapillary into the open end of the Micropipette Holder 
+**** Secure the microcapillary to the Micropipette Holder by turning the screw clamp. Do not over-tighten the screw clamp.
+**** Ensure that the Micropipette Holder is positioned within the micromanipulator arm in such a way that it is stabilized by the grooved slot on the top face. /Failure to correctly secure the microcapillary can result in instability or breakage of the microcapillary during microinjection/.
+**** Open the tip of the microcapillary needle. During preparation of the pulled microcapillary needle glass at the tip of the point will likely melt in such a way as to seal the pointed end of the microcapillary. To remove this blockage:
+**** Position the micromanipulator such that the microcapillary is pointed down at the glass stage of the dissecting scope without touching this surface.
+**** Find a sterile plastic surface (the underside of a culture plate lid works perfectly) and place it on the microscope stage directly underneath the microcapillary needle.
+**** Center the tip of the microcapillary under the viewing area and ensure that it is visible when looking through the eyepiece of the microscope.
+**** Using the micromanipulator controls, slowly advance the micromanipulator arm and microcapillary towards the sterile plastic culture lid until the tip barely contacts the plastic surface. This should be sufficient to induce a small break at the tip of the needle. 
+**** Back the microcapillary away from the sterile surface to minimize the chance of accidental breakage before proceeding.
+**** Check microcapillary for flow by depressing the glass syringe, pushing mineral oil through the tubing. If the end of the microcapillary has been opened you will see a small droplet of mineral oil emerge from the tip of the microcapillary after a few seconds. If this does not occur, repeat the previous step and re-test. Aim for the smallest possible break that allows for fluid flow from the microcapillary in order to minimize the damage to the HIO during microinjection.
+
+
+
+* Sterile microinjection
+Once the microcapillary has been prepared, installed, and tested you may begin microinjecting HIOs. *Figure 2* illustrates a tissue-derived HIO that has been successfully injected with FITC-dextran.
+#+BEGIN_LATEX
+\begin{figure}
+\centering
+\includegraphics[width=0.35\linewidth]{./img/figure3.pdf}
+\caption{Brightfield image of a tissue-derived human intestinal organoids after microinjection of FITC-dextran. Note that the fluorescence signal is apparent even without the use of a specific filter set. This coloration aids microinjection precision. 3X magnification}
+\end{figure}
+#+END_LATEX
+
+** Fill the microcapillary with your injection material. Submerge the microcapillary in the injection suspension, being careful to avoid breaking the tip of the microcapillary against the sides or bottom of the tube. Once the microcapillary is submerged in the solution, pull back on the mineral oil syringe to draw your suspension into the microcapillary
+#+LATEX: \begin{bclogo}[logo=\bcinfo, couleurBarre=Black, noborder=true, couleur=gray!10]{     Preparing your suspension}
+It is recommended that you use 1.5 mL or 0.5 mL eppendorf tubes for your injection solutions/cultures since these will be the most easily accessible to the installed microcapillary. If the suspension is highly viscous or if the opening of the microcapillary is exceptionally small, it may take several second to fill the microcapillary. Do not draw microinjection suspensions into the plastic microinjection tubing as this may contaminate the entire microinjection system.
+#+LATEX: \end{bclogo}
+ 
+** Stop filling the microcapillary when your microinjection suspension fills 90% of the length of the glass microcapillary. Depress the syringe slightly before withdrawing the microcapillary from the microinjection solution to ensure that the tip of the microcapillary does not contain pockets of air. If the examination of the microcapillary reveals pockets of air, empty and re-fill.
+** Remove your HIO culture plate(s) from the cell culture incubator and transfer to the biosafety cabinet with the microinjector.
+** Remove the lid from your HIO culture plate within the biosafety cabinet and center the first well on the microscope stage so that it is clearly visible through the eyepiece of the scope at the lowest magnification setting.
+** Position the micromanipulator arm such that the microcapillary is pointed down into the HIO culture well at an angle >45\deg{} relative to the microscope stage. This is most easily accomplished by manually turning the entire manipulator assembly on its horizontal axis, since the fine controls (black dials) have a limited range of motion.The tip of the microcapillary should be positioned above your first culture well at approximately 1 cm above the surface of the media.
+** Check that both the tip of the microcapillary and the HIO(s) are visible through the eyepiece. Re-position if necessary.
+** Advance the microcapillary slowly using the X-, Y-, and Z-axis controls.
+#+LATEX: \begin{bclogo}[logo=\bcinfo, couleurBarre=Black, noborder=true, couleur=gray!10]{     Judging the position of the microcapillary}
+Judging the position of the microcapillary tip, particularly the depth, requires practice. As the tip breaches the surface of the media, you will notice a slight visual distortion of the microcapillary tip. Proceed with care from this point to avoid breaking the microcapillary against the bottom of the culture plate or damaging the HIOs.
+#+LATEX: \end{bclogo}
+** Pierce the HIO with the microcapillary tip. The outer surface of the HIO will depress slightly as the microcapillary begins to apply pressure and will pop back into shape as the tip penetrates into the lumen. You may or may not be able to identify the tip of the microcapillary within the HIO lumen. 
+** Remove your hands from the micromanipulator controls when the microcapillary is correctly positioned with the tip of the microcapillary in the center of the HIO.
+** Depress the mineral oil syringe slightly to push the microinjection solution out of the microcapillary and into the HIO lumen. The HIO may expand slightly to accommodate the volume of the injection. 
+#+LATEX: \begin{bclogo}[logo=\bcinfo, couleurBarre=Black, noborder=true, couleur=gray!10]{     How much is too much?}
+Take care to avoid over-filling the HIO as this will cause the organoid to burst. As a rule of thumb, any visible expansion of the HIO volume means it is time to stop. The mean volume of the mature HIO lumen is approximately 1 \mu{}L, but may vary significantly. In some cases it may be difficult to visually confirm successful HIO microinjection. The visibility of clear microinjection suspensions can be enhanced by use of addition of higher concentrations of FITC-dextran
+#+LATEX: \end{bclogo}
+** Withdraw the microcapillary from the HIO using the Z-axis control and position above the surface of the media.
+** Move to the next HIO target with the microcapillary positioned above the media to avoid accidental damage to the HIOs during manoeuvering and inject in a similar manner. 
+*** The microcapillary can be re-filled using the approach described above. 
+#+LATEX: \begin{bclogo}[logo=\bcinfo, couleurBarre=Black, noborder=true, couleur=gray!10]{     Do not attempt to  use broken microcapillaries}
+If the tip breaks at any point during the microinjection, do not attempt to continue injections. Change the tip according to the instructions above.
+#+LATEX: \end{bclogo}
+
+** Change the microcapillary between treatments or in the event of breakage. Loosen the clamp on the end of the micromanipulator arm and remove the microcapillary from the micropipette holder.  
+#+LATEX: \begin{bclogo}[logo=\dangersign, couleurBarre=red, noborder=true, couleur=yellow!20]{     DANGER: Sharp point} 
+Do not handle the microcapillary near the sharp end. The fine point of the microcapillary is extremely sharp and will easily puncture gloves and skin. Use caution and be aware of your movements, handling the microcapillary using the manupulator only and never placing your hands between the point of the microcapillary and your HIO cultures. Seek medical treatment immediately in the event of a needlestick from a microcapillary containing infectious agents or toxins.
+#+LATEX: \end{bclogo}
+
+* Pharmacological treatment of HIOs 
+** To test compounds delivered to the apical epithelium, resuspend in sterile PBS containing 2mg/ml FITC-dextran and microinject into the HIO lumen as indicated above. For the representative experiment, /Clostridium difficile/ toxin TcdA was resuspended at 12.8 ng/\mu{}l in PBS containing FITC-dextran
+** To test compounds delivered to the basolateral compartment, replace the external culture media with new media containing 2mM EGTA (Positive control), PBS vehicle alone (Negative control), or other experimental compound after microinjection of FITC-dextran. 
+#+LATEX: \begin{bclogo}[logo=\bcinfo, couleurBarre=Black, noborder=true, couleur=gray!10]{     Alternate approach}
+Dosing and timing of the application of pharmacologic compounds, toxins, or other agents may vary according to the experimental question.
+#+LATEX: \end{bclogo}
+
+* Live imaging of microinjected organoids
+** Transfer the culture plates to a fluorescent microscope equipped with a humidified chamber maintained at 37 \deg{}C and 21% O_{2} and 5% CO_{2} with an automated Deltavision-RT Live Cell Imaging System.
+
+** Set excitation/emission to 495 nm/519 nm and visualize the HIOs at 4X magnification. 
+** Set the location of each of the HIOs using the Deltavision-RT software and program the unit to capture a single epifluorescent image of each HIO at 5-15 minute intervals with a 0.025 s exposure duration over a 24-48 h post-treatment period.
+#+LATEX: \begin{bclogo}[logo=\bcinfo, couleurBarre=Black, noborder=true, couleur=gray!10]{     Determining fluorescence acquisition settings}
+Exposure time should be varied to suit the strength of the fluorescent signal. In general, the FITC fluorescence signal will only decrease. Therefore, to ensure maximum sensitivity, the exposure times should be adjusted such that the recorded fluorescent signal is just below the saturation point of the camera and imaging software at T = 0.
+#+LATEX: \end{bclogo}
+
+** Close the environmental chamber and start the imaging process. Ensure that the positions of the HIOs are correctly programmed by evaluating the first set of images recorded by the computer before leaving the device the record the timecourse.
+*** Make note of the unique ID number assigned to each programmed microscopy position and the images captured at that position. This will be used to associate images with specific HIOs and treatments.
+** At the end of the planned timecourse, export and save all image files as 8-bit greyscale TIFF images.
+** The HIO tissue and media may be stored for histology, PCR, Western blot, or other downstream analysis.
+
+* Post-imaging analysis
+** Ensure that ImageJ \supercite{Schneider:2012} is installed and working properly on the computer to be used for analysis.
+** Start the batch analysis by selecting "Process" then "Batch" and finally "Macro.." from the ImageJ menu
+** Set the "Input..." to the directory containing the TIFF images collected during the experimental timecourse. Open the "thesholdmeasure.ijm" ImageJ macro file or directly copy/paste the macro code into the window. Click "Process" to begin processing the files.
+#+LATEX: \begin{bclogo}[logo=\bcinfo, couleurBarre=Black, noborder=true, couleur=gray!10]{     Setting the image threshold value}
+The minimum threshold value /x/ (=setThreshold(x,255);=) can be set to any number 0-255 and should be adjusted so as to eliminate background fluorescence. Values < 100 are recommended. To empirically determine the appropriate threshold value, run the imaging macro on a single image representing an organoid with no fluorescent signal. The mean intensity of this image can serve as a guide for setting the threshold appropriately.
+#+LATEX: \end{bclogo}
+
+#+BEGIN_SRC sh :tangle thresholdmeasure.ijm :exports none
+macro "Threshold measurement" {
+    run("8-bit");
+    setAutoThreshold("Default dark");
+    //run("Threshold...");
+    setThreshold(42, 255);
+    run("Set Measurements...",
+	 "area mean min median limit display redirect=None decimal=9");
+    run("Measure");
+}
+#+END_SRC
+** ImageJ will produce a large table containing the area of all pixels within the threshold intensity range, and the the mean, median, minimum, and maximum (limit) intensity value for the area within the threshold intensity limits. Save this as a CSV or Microsoft Excel data table.
+** Change in intensity over time can be computed in Excel by manipulating the data table or can be automated using a suitable programming language. An example analysis script written in R\supercite{CRAN:2017} is provided with this manuscript.
+#+LATEX: \begin{bclogo}[logo=\bccrayon, couleurBarre=gray!10, noborder=true, couleur=gray!10]{     Elimination time (\textit{t}$_\frac{1}{2}$) derrivation}
+For each HIO, relative fluorescence intensity may be quantified as \(\frac{FITC_{t=n}}{FITC_{t=0}}\). Elimination time\supercite{rosenbaum2016basic} (\textit{t}$_\frac{1}{2}$) of FITC-dextran in the HIO lumen was calculated as follows:
+
+First, the *area under the curve* (/AUC/) is calculated from the curve describing the relative fluorescence intensity \(\frac{FITC_{t=n}}{FITC_{t=0}}\) over time (/t/) as:
+ \begin{equation}
+ AUC_{0-\infty} =  \int_{0}^{\infty} \frac{FITC_{t=n}}{FITC_{t=0}}t
+ \end{equation}
+Then, calculate the *clearance* (/CL/) rate with the volume of distribution (/V_{d}/) defined as 1 for the normalized fluorescence at /t/ = 0:
+ \begin{equation}
+ CL = \frac{V_d}{AUC} = \frac{1}{AUC}
+ \end{equation}
+Next, the *elimination rate constant* (K_e) is defined as:
+ \begin{equation}
+ k_e = \frac{CL}{V_d}
+ \end{equation}
+And finally, the *elimination time* (\textit{t}$_\frac{1}{2}$) is calculated as:
+ \begin{equation}
+ t_{\frac{1}{2}} = \frac{ln(2)}{k_e}
+ \end{equation}
+The reduced equation is thus:
+ \begin{equation}
+ t_{\frac{1}{2}} = \frac{ln(2)}{{\int_{0}^{\infty} \frac{FITC_{t=n}}{FITC_{t=0}}t\:^{-1}}}
+ \end{equation}
+# \begin{equation}
+# t_{\frac{1}{2}} = \frac{ln(2)}{{AUC_{0-\infty}\:^{-1}}}
+# \end{equation}
+#+LATEX: \end{bclogo}
+
+#+LATEX:\section*{REPRESENTATIVE RESULTS} 
+HIOs were differentiated from human pluripotent stem cells and cultured in matrigel as previously described \supercite{Spence:2011,McCracken:2011}. After 4 weeks in culture, the HIOs had expanded sufficiently to allow for microinjection. HIOs were microinjected with 4 kDa FITC-conjugated dextran suspended in PBS or PBS containing /Clostridium difficile/ toxin TcdA. /C. difficile/ is an opportunistic gastrointestinal pathogen that exhibits toxin-mediated epithelial toxicity in HIOs \supercite{Leslie:2015}. As a positive control, ethylene glycol-bis(\beta{}-aminoethyl ether)-N,N,N',N'-tetraacetic acid (EGTA) was added to the HIO culture media in a subset of HIOs injected with PBS and FITC-dextran. EGTA is a calcium chelator that causes rapid de-polymerization of the actin cytoskeleton \supercite{Selden:1983}. FITC fluorescence was monitored in real time on a live imaging microscope within a controlled environmental chamber and images were captured in 10 minute intervals.
+Post-hoc analysis of imaging data revealed substantial differences in the retention of FITC fluorescence (*Figure 4*). HIOs injected with PBS retained nearly all of the fluorescent signal present at /t/ = 0, however HIOs that were also injected with TcdA of treated with EGTA exhibited a substantial decrease in fluorescent intensity by 8 hours post-microinjection (*Figure 4A*). Imaging data were quantified for all HIOs at all time points to generate a high-resolution dataset representing the relative change in fluorescent intensity over time in each experimental condition (*Figure 4B*). Differences in epithelial permeability were evaluated by calculating the mean elimination time (\textit{t}$_\frac{1}{2}$) of FITC for each treatment group (*Table 1*) and comparing differences in \textit{t}$_\frac{1}{2}$ between groups using the Student's /t/-test. Control-treated HIOs retained the majority of FITC fluorescent signal for more than 16 hours (\textit{t}$_\frac{1}{2}$ = src_R[:session *R* :exports results :results text]{format(as.numeric(data.thalf.stats[1,2]), digits = 2)} $\pm$ src_R[:session *R* :exports results :results text]{format(as.numeric(data.thalf.stats[1,5]), digits = 2)} h). Treatment with EGTA significantly reduced FITC-dextran elimination time relative to control HIOs (\textit{t}$_\frac{1}{2}$ = src_R[:session *R* :exports results :results text]{format(as.numeric(data.thalf.stats[2,2]), digits = 2)} $\pm$ src_R[:session *R* :exports results :results text]{format(as.numeric(data.thalf.stats[2,5]), digits = 2)} h; /P/ = \num{src_R[:session *R* :exports results :results text]{format(test1, digits = 2)}}). Consistent with previously published results\supercite{Leslie:2015}, microinjection of TcdA significantly increased epithelial barrier permeability relative to control treatment (\textit{t}$_\frac{1}{2}$ = src_R[:session *R* :exports results :results text]{format(as.numeric(data.thalf.stats[3,2]), digits = 2)} $\pm$ src_R[:session *R* :exports results :results text]{format(as.numeric(data.thalf.stats[3,5]), digits = 2)} h; /P/ = \num{src_R[:session *R* :exports results :results text]{format(test2, digits = 2)}}). Thus both external (EGTA) and microinjected (TcdA) compounds are capable of inducing significant alterations in epithelial barrier permeability in HIOs. These results suggests that the effects of a wide range of pharmacologic agents, metabolites, bacterial products, cytokines, growth factors, and other compounds on epithelial barrier function may be evaluated using this approach.
+
+
+#+begin_src sh :tangle imagej-threshold-quant.sh :eval no :exports none
+#! /bin/bash
+## ImageJ threshold quantification processing script
+## David R. Hill
+
+## set directory containing unprocessed images
+TIFDIR=../data/raw_img/
+## set output directory
+RESULTDIR=../results/
+## set ImageJ macro
+IJM=./thresholdmeasure.ijm
+
+## make folder to deposit results
+mkdir -p $RESULTDIR
+
+## warn the user this may take some time
+echo 'Computing fluorescence intensity values...'
+echo 'This may take a while. Now would be a good time for a coffee break.'
+
+## create data file and add header line
+echo 'Filename	Area	Mean	Min	Max	Median' > $RESULTDIR/threshold_results.txt
+
+## process all files in TIFDIR and output to threshold_results.txt
+## note that files were downsized to reduce filesize and
+## facillitate sharing of the example dataset available on github
+for file in $TIFDIR/*.tif
+do
+    imagej -i $file -b $IJM | sed '1,4d' | cut -f 2-7 >> $RESULTDIR/threshold_results.txt
+done
+
+## print first 10 lines and message indicating completion
+echo 'IMAGE PROCESSING FINISHED'
+echo 'Printing first 10 lines of output'
+echo '#################################'
+head $RESULTDIR/threshold_results.txt
+#+end_src
+
+#+begin_src R :session *R* :results silent :tangle image_analysis.R :exports none :eval yes :tangle image_analysis.R
+## R script for analyzing HIO FITC-dextran permeability data
+## David R. Hill
+
+## run imagej-threshold-quant.sh to generate results file
+## prior to analysis in R
+
+## DATA WRANGLING ##############################################################
+## load raw data output into R
+data <- readr::read_delim(file = "../results/threshold_results.txt",
+                          delim = "\t",
+                          col_names = TRUE)
+
+## parse metadata from file names 
+## NOTE: This step may vary significantly depending on your imaging
+## software and file naming scheme. Below is a general example
+## illustrating one approach
+
+## remove uninformative characters
+data$name <- gsub(pattern = "HIO_",
+                  replacement = "",
+                  data$Filename) # retain filename for reference
+data$name <- gsub(pattern = ".tif",
+                  replacement = "",
+                  data$name)
+data$name <- gsub(pattern = ".png",
+                  replacement = "",
+                  data$name)
+data$name <- gsub(pattern = "R3D",
+                  replacement = "",
+                  data$name)
+data$name <- gsub(pattern = "w523",
+                  replacement = "",
+                  data$name)
+data$name <- gsub(pattern = "w525",
+                  replacement = "",
+                  data$name)
+data$name <- gsub(pattern = "___",
+                  replacement = "_",
+                  data$name)
+data$name <- gsub(pattern = "t",
+                  replacement = "",
+                  data$name)
+
+## split string into distinct data columns
+## date the experiment was conducted
+data$experiment_date <- as.factor(stringr::str_split_fixed(string = data$name,
+                                                 pattern = "_", n = 3)[,1])
+data$experiment_date <- gsub(pattern = "0",
+                  replacement = "",
+                  data$experiment_date)
+
+## number indicating the specific HIO in image
+data$HIO <- as.numeric(stringr::str_split_fixed(string = data$name,
+                                     pattern = "_", n = 3)[,2])
+## frame number in sequence, with frame 1 = T0
+data$frame <- as.numeric(stringr::str_split_fixed(string = data$name,
+                                       pattern = "_", n = 3)[,3])
+
+## data manipulation
+## convert NaN values to 0
+is.nan.data.frame <- function(x) {
+    do.call(cbind, lapply(x, is.nan))}
+data$Mean[is.nan.data.frame(data$Mean)] <- 0
+
+## subset baseline measurement as separate dataframe
+baseline <- subset(data, data$frame == 1)
+baseline$t0 <- baseline$Mean
+baseline <- dplyr::select(baseline, HIO, experiment_date, t0)
+
+## merge column with baseline measurements for normalization
+data <- dplyr::left_join(data, baseline, by = c("HIO", "experiment_date"))
+
+## caclulate normalized fluorescence
+data$normalized <- data$Mean/data$t0
+
+## load sample key with experiment data and HIO group assignments
+groups <- readr::read_csv(file = '../data/sample_key.csv', col_names = TRUE)
+groups$experiment_date <- as.character(groups$experiment_date)
+
+## merge with main data table
+data <- dplyr::left_join(data, groups, by = c("HIO", "experiment_date"))
+
+## calculate time
+## experiment from 01/2015 used 15 min interval. Exp from 07/2015 used 10 min interval
+data$min <- ifelse(data$experiment_date == "11515", (data$frame*15)-15,(data$frame*10)-10)
+## convert to hours
+data$hr <- data$min/60
+
+## generate group summary statistics for plotting
+library(magrittr)
+data_mean <- dplyr::group_by(data, treatment, hr) %>%
+    dplyr::summarise(mean = mean(normalized), 
+                     stdev = sd(normalized), #standard deviation
+                     num = n(),
+                     sem = sd(normalized)/n(),
+                     iqr = IQR(normalized), #inter-quartile region
+                     min = min(normalized),
+                     max = max(normalized),
+                     median = median(normalized))
+
+## statistical analysis
+data_auc <- dplyr::group_by(data, HIO, experiment_date) %>%
+    dplyr::summarise(auc = flux::auc(hr, normalized)) #area under curve
+data_auc$cl <- 1/data_auc$auc #clearance rate
+data_auc$ke = data_auc$cl/(1/1) # elimination rate constant. Vd = 1 for normalized T=0 FITC
+data_auc$thalf = logb(2,2)/data_auc$ke #t1/2
+
+## generate summary statistics for thalf data
+data.thalf <- dplyr::left_join(data_auc, groups, by = c("HIO", "experiment_date")) %>% 
+    dplyr::select(treatment, thalf)
+data.thalf.stats <- dplyr::group_by(data.thalf, treatment) %>%
+    dplyr::summarise(mean = mean(thalf), 
+                     stdev = sd(thalf), #standard deviation
+                     num = n(),
+                     sem = sd(thalf)/n(),
+                     min = min(thalf),
+                     max = max(thalf)) %>%
+    dplyr::mutate(lower.ci = mean - qt(1 - (0.05/2), num - 1) * sem,
+                   upper.ci = mean + qt(1 - (0.05/2), num - 1) * sem)
+
+## student's t-tests
+## egta vs. control
+test1 <- t.test(data.thalf[data.thalf$treatment == "Control",]$thalf,
+                data.thalf[data.thalf$treatment == "EGTA",]$thalf)$p.value
+## tcda vs. control
+test2 <- t.test(data.thalf[data.thalf$treatment == "Control",]$thalf,
+                data.thalf[data.thalf$treatment == "TcdA",]$thalf)$p.value
+## tcda vs. egta
+test3 <- t.test(data.thalf[data.thalf$treatment == "EGTA",]$thalf,
+                data.thalf[data.thalf$treatment == "TcdA",]$thalf)$p.value
+#+end_src
+
+#+begin_src R :session *R* :results silent :exports none :eval yes :tangle image_analysis.R
+## Plotting ####################################################################
+library(ggplot2)
+## Import Figure 1A and convert to vector graphics
+library(grid)
+library(gridSVG)
+library(grConvert)
+library(grImport2)
+library(gridExtra)
+
+if (file.exists("../img/FITC-HIOs-cairo.svg.Rdata") == TRUE) {
+    load(file = "../img/FITC-HIOs-cairo.svg.Rdata")
+} else {    
+    ##https://www.stat.auckland.ac.nz/~paul/Reports/Rlogo/Rlogo.html
+    grConvert::convertPicture("../img/FITC-HIOs.svg", "../img/FITC-HIOs-cairo.svg")
+    ## this step takes a while
+    figure1a <- grImport2::readPicture("../img/FITC-HIOs-cairo.svg")
+    save(figure1a, file = "../img/FITC-HIOs-cairo.svg.Rdata")
+    load(file = "../img/FITC-HIOs-cairo.svg.Rdata")
+}
+
+fig1a <- gTree(children = gList(pictureGrob(figure1a, ext = "gridSVG"))) 
+
+fig1a <- qplot(1:100, 1:100, alpha = I(0)) +
+    theme_bw() +
+    annotation_custom(fig1a, xmin = -Inf,
+                      xmax = Inf,
+                      ymin = -Inf,
+                      ymax = Inf) +
+    ggtitle("A") + coord_fixed(ratio = 1) +
+    theme(panel.grid.major = element_blank(),
+                   panel.grid.minor = element_blank(),
+                   panel.border = element_blank(),
+                   axis.text.x = element_blank(),
+                   axis.text.y = element_blank(),
+                   axis.ticks  =  element_blank(),
+                   axis.title.x = element_blank(),
+                   axis.title.y = element_blank(),
+                   plot.title  =  element_text(size = 45,
+                                             face = "bold",
+                                             hjust  =  0), 
+                   legend.position = "none")
+
+## Setup for figure 1B
+fig1b <- ggplot(data = data_mean, aes(x = hr, y = mean, fill = treatment)) +
+    geom_errorbar(aes(ymin = mean - sem,
+                      ymax = mean + sem,
+                      color = treatment),
+                  width = 0, size = 1) +
+    geom_point(shape = 21, size = 10, color = "white", stroke = 1) +
+    scale_x_continuous(breaks = seq(0,24,1), limits = c(0,10)) +
+    xlab("Time (h)") + ylab("Normalized FITC-dextran intensity") +
+    ggtitle("B") +
+    ## plot theme
+    theme(axis.text.x = element_text(size = 32,
+                                     angle = 0,
+                                     hjust = 0.5,
+                                     face = "bold"),
+          axis.text.y = element_text(size = 32,
+                                     face = "bold",
+                                     hjust = 1),
+          legend.position = c(0.1,0.15),
+          legend.key = element_rect(fill = "white"),
+	  legend.text = element_text(size = 32,
+                                     face = "bold"),
+          legend.key.size = unit(1.5, "cm"),				    
+          panel.background = element_rect(fill = "white"),
+          panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+          axis.title = element_text(size = 36,
+                                    face = "bold"),
+          axis.title.y = element_text(vjust = 1.5),
+          axis.title.x = element_text(vjust = -0.5),
+          legend.title = element_blank(),
+          panel.border = element_rect(fill = NA,
+                                      color = "black",
+                                      size = 1),
+          plot.title = element_text(size = 45,
+                                    face = "bold",
+                                    hjust = 0)
+          )
+
+## setup multipanel PDF plot
+layout <- rbind(c(rep(1, times = 4),rep(2, times = 5)))
+pdf(file = "../results/figure4.pdf", width = 8800/300, height = 4000/300, onefile = FALSE)
+gridExtra::grid.arrange(fig1a,fig1b, layout_matrix = layout)
+dev.off()
+#+end_src
+
+
+#+BEGIN_LATEX
+\begin{figure}
+\includegraphics[width=0.95\linewidth]{./results/figure4.pdf}
+\caption{\textbf{A} Stem-cell derived human intestinal organoids (HIO) microinjected with 2 mg/ml FITC-dextran (4 kDa) imaged for 20 hours. HIOs were also microinjected with PBS (control) or the \textit{Clostridium difficile} toxin TcdA (12.8 ng/$\mu$l) or treated with 2 mM EGTA added to the external culture media. 4X Magnification. \textbf{B} Plot of mean normalized FITC intensity over time in HIOs treated with PBS (control), TcdA, or EGTA. Error bars represent S.E.M and N = 4-6 HIOs per group.}
+\end{figure}
+#+END_LATEX
+
+#+begin_src R :session *R* :exports none :eval no
+data.thalf.stats <- dplyr::select(data.thalf.stats, -num, -min, -max, - stdev)
+xtable::xtable(data.thalf.stats)
+#+end_src
+
+#+BEGIN_LaTeX
+% latex table generated in R 3.4.0 by xtable 1.8-2 package
+% Thu Jun 22 14:05:37 2017
+\begin{table}[ht]
+\centering
+\begin{tabular}{l|cccc}
+{\bf Treatment} & {\bf \textit{t}$_\frac{1}{2}$} & {\bf SEM} & {\bf Lower 95\% CI} & {\bf Upper 95\% CI} \\ 
+  \hline
+Control & 17.11 & 0.30 & 16.45 & 17.78 \\ 
+EGTA & 2.58 & 0.19 & 1.78 & 3.38 \\ 
+TcdA & 7.56 & 0.63 & 5.93 & 9.18 \\ 
+\end{tabular}
+\caption{Mean elimination time (\textit{t}$_\frac{1}{2}$) for FITC-dextran in HIOs treated with EGTA or TcdA. Units are hours post-microinjection.}
+\end{table}
+#+END_LaTeX
+
+
+#+LATEX:\section*{DISCUSSION} 
+This protocol establishes a general purpose method for the microinjection of hPSC-derived HIOs and tissue-derived intestinal organoids and the measurement of epithelial barrier permeability in real time. We have also demonstrated our approach to analysis and interpretation of the data generated using these methods. Given the growing adoption of intestinal organoids model systems \supercite{Clevers:2016,Hill:2017,Aurora:2016,Dedhia:2016} and the long standing interest in intestinal barrier permeability as a physiologically relevant functional outcome \supercite{Clayburgh:2004,Turner:2009,Bischoff:2014,Odenwald:2017}, we anticipate that others working in this field will be able to apply and build upon these methods.
+
+There are several steps which are critical to the application of this technique. Access to high quality hPSC- or tissue derived HIO tissue should be established prior to extensive experimentation with microinjection. HIO macrostructure may be heterogenous, with variation in both size and shape, although tissue identity and cellular morphology is highly reproducible when utilizing established methodology to generate HIOs \supercite{McCracken:2011}. Spherical HIOs consisting of a single semi-transparent lumen and measuring approximately 1 mm in diameter are ideal for microinjection and measurement of luminal fluorescence in real-time. In some cases microinjection will fail, resulting in collapse of the HIO or obvious leakage of injected material. Failed HIOs can be removed from the culture well at the user's discretion using a standard micropipettor. Consider the objective lenses available on an imaging platform when selecting HIOs for microinjection and imaging. In general 2-4X objective lenses are ideal for capturing the complete HIO fluorescent signal, although a 10X objective may be used if low power lenses are not available or if the available HIOs are < 1mm in diameter. Imaging software must allow for the automated capture of fluorescent images at defined points over time. 
+
+Several modifications of this protocol are possible in order to suit the experimental requirements. For example, the results of barrier function tests may be dependent on the molecular size of the compounds in use \supercite{Vojdani:2013} and it may be appropriate to test dextran preparations of varying molecular weight. When performing microinjection of live bacteria\supercite{Hill:2017,Leslie:2015,Forbester:2015,Engevik:2015,Engevik:2013,Karve:2017}, it may be necessary to add penicillin and streptomycin or gentamicin to the HIO culture media prior to or after microinjection. The outside of the microcapillary will become contaminated during filling with the bacterial culture suspension and this may be transferred to the HIO media. Alternately, microinjection can be performed on HIOs suspended in matrigel without media, adding the media after the microinjection is completed. This may limit contamination to the matrigel and external face of the HIO. When planning microbial growth assays, it may be necessary to remove antibiotics in the media after 1-2 h to avoid slowing or preventing growth of microinjected organisms. 
+
+Finally, recognizing that not all researchers will have access to microscopy equipment suited to /in vitro/ imaging, it is important to point out that the procedures outlined in this protocol for collecting fluorescence data can be applied to images taken at fixed timepoints using standard epifluorescent microscopy without automated image capturing or environmental controls. Examples of this approach can be found in the reports by Leslie and Huang /et al./\supercite{Leslie:2015}, who examined /C. difficile/ toxin activity in hPSC-derived intestinal organoids, and Karve and Pradan /et al./\supercite{Karve:2017}, who examined epithelial barrier permeability in similar hPSC-derived intestinal organoids microinjected with live /E. coli/. Manual operation of imaging equipment may result in greater variation and difficulty in normalizing the fluorescent signal. When performing manual imaging of FITC-dextran injected HIOs it is essential to maintain fixed magnification, fluorescent excitation intensity, and exposure times throughout the experiment to avoid distorting the fluorescent intensity measurements. 
+#+BEGIN_LaTeX
+\begin{table}[ht]
+\centering
+\begin{tabular}{lll}
+\textbf{Item} & \textbf{Company} & \textbf{Catalog Number}\\
+\hline
+Manipulator & Narshge & UM-3C\\
+Micromanipulator & Narshge & UM-1PF\\
+Pipette Holder & Narshge & UP-1\\
+Magnetic stand & Narshge & GJ-1\\
+Micropipette holder & Xenoworks & BR-MH2\\
+Analog Tubing kit & Xenoworks & BR-AT\\
+1/16 in clear ferrule & Xenoworks & V001104\\
+1-1.2mm O-ring & Xenoworks & V300450\\
+Mineral oil & Sigma-Aldrich & M8410\\
+FITC-dextran (4 kDa) & Sigma-Aldrich & 46944\\
+Glass filaments & WPI & TW100F-4\\
+Dissecting scope & Olympus & SX61\\
+Micropipette puller & Sutter Instruments & P-30\\
+Biosafety cabinet & Labconco & Cell Logic+\\
+\end{tabular}
+\caption{Required equipment and materials for HIO microinjection}
+\end{table}
+#+END_LaTeX
+
+
+#+LATEX:\section*{ACKNOWLEDGMENTS}
+The authors would like to thank Drs. Stephanie Spohn and Basel Abuaita for many useful discussions on organoid microinjection.
+JRS is supported by the Intestinal Stem Cell Consortium (U01DK103141), a collaborative research project funded by the National Institute of Diabetes and Digestive and Kidney Diseases (NIDDK) and the National Institute of Allergy and Infectious Diseases (NIAID). JRS and VBY are supported by the NIAID Novel, Alternative Model Systems for Enteric Diseases (NAMSED) consortium (U19AI116482). DRH is supported the Mechanisms of Microbial Pathogenesis training grant from the National Institute of Allergy and Infectious Disease (NIAID, T32AI007528) and the Clinical and Translational Science award to the Michigan Institute for Clinical and Health Research (UL1TR000433). 
+#+LATEX:\printbibliography
+* Results Notes							   :noexport:
+(Example Representative Results section: www.jove.com/52010)
+Please provide a concise, written description of a representative outcome following the use of this protocol, so that a viewer will have a sense of a “positive” and/or “negative” result. This section should include reference to all of the data figures in the manuscript, emphasizing how the results confirm the success of the protocol and how to interpret the data. Please include data from successful experiments and data from sub-optimal experiments to demonstrate the range of outcomes possible and what could occur if critical steps are not followed. A diagram/schematic of the method is recommended but is NOT sufficient.
+
+All claims of the effectiveness of a method must be backed up with data, i.e., representative results. For example: If authors claim that method X cleanly purifies nuclear envelope proteins from a cell, they must include a figure conclusively demonstrating such. The manuscript must include at least one figure or table providing Representative Results. If a figure is adapted or republished from a previous publication, authors must cite the original article in the figure legend and receive permissions from the publisher. Example: This figure has been modified from [citation].1
+
+Provide separate files for figures and tables; do NOT embed figures or tables within the manuscript document.  The default placement for all figures and results tables in the final publication is below the Representative Results text.  Please indicate, via brackets [Place Figure 1 here], if you prefer figure/table placement at another location in the text.  
+
+Figures:
+Text: Use Arial, 20 pt. font or greater.
+Axis/Axis Tick Labels/Graph Lines: Use 20 pt. size font or greater, 3 pt. weight or greater.
+All figures should be provided as individual files. DO NOT embed them in the manuscript file.
+Multi-panel figures (with parts A, B, C, etc.) should be submitted as a single, combined image file that contains all parts of the figure.
+All data figures must include measurement definitions and error bars (if applicable). Please define all error bars (SEM, SD, Range, etc.). All microscopic images must include scale bars.
+Preferred figure file types: .eps, .psd, .pdf. Please save any .ai files as .pdf for submission but maintain .ai files for production purposes.
+.tif (accepted) and .jpg (not preferred) files must be at least 1440 x 480 pixels or 300 dpi.
+Preferred animated figure file types: .mov, .mp4, .m4v (upload as “Animated/Video Figure”).
+50 MB maximum size (Contact your editor or submissions@jove.com for exceptions).
+
+Tables:
+All tables should be provided as individual .xls or .xlsx files and submitted as Tables. 
+
+FIGURE & TABLE LEGENDS: 
+Each figure or table, including supplemental figures/tables, must have an accompanying legend comprised of a short title and a short description of each panel or a general description. Legends should be included as part of the manuscript and NOT included in the figure file. 
+
+Example: Figure 1: Representative flow cytometry analysis of non-permeabilized cells. (A) Schematic representation of gating strategy used in flow cytometry analysis sample. Data were analyzed after acquisition with the appropriate software…(B) Semi-log graph for the….
+* Attention blocks						   :noexport:
+** Danger 
+ #+LATEX: \begin{bclogo}[logo=\dangersign, couleurBarre=red, noborder=true, couleur=yellow!20]{     DANGER: Sharp point} 
+ The glass microcapillary is extremely sharp. Handle with care.
+ #+LATEX: \end{bclogo}
+** info
+#+LATEX: \begin{bclogo}[logo=\bcinfo, couleurBarre=OliveGreen, noborder=true, couleur=gray!20]{ Use of dyes to increase visibility during microinjection}
+In some cases it may be difficult to visually confirm successful HIO microinjection. The visibility of clear microinjection suspensions can be enhanced by the addition of a visible dye. Resazurin (0.002% w/v) or FITC-dextran (> 1 mg/ml) can be added to the microinjection suspension. Other dyes, such as Evans Blue, may work as well but have not been tested. Use of a dye will allow you to confirm that the microinjection suspension has been injected and retained in the HIO lumen. @@latex:\textbf{@@Note that the potential biological activity of resazurin, FITC-dextran, or other dyes may influence your experimental results.@@latex:}@@ Be sure to use the same dye conditions in any control injections.
+#+LATEX: \end{bclogo}
+
+#+LATEX: \begin{bclogo}[logo=\bcinfo, couleurBarre=Black, noborder=true, couleur=gray!10]{     Alternate approach}
+Alternately, a clean bench with positive air flow system may be used in place of a biosafety cabinet with microscope access points.
+#+LATEX: \end{bclogo}
+** Check
+
+#+LATEX: \begin{bclogo}[logo=\checkmark, couleurBarre=blue, noborder=true, couleur=blue!10]{}
+An example of a complete microinjector assembly is shown in *Figure 1*
+#+LATEX: \end{bclogo}
