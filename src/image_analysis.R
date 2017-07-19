@@ -131,7 +131,7 @@ test3 <- t.test(data.thalf[data.thalf$treatment == "EGTA",]$thalf,
 
 ## Plotting ####################################################################
 library(ggplot2)
-## Import Figure 1A and convert to vector graphics
+## Import Figure 4A and convert to vector graphics
 library(grid)
 library(gridSVG)
 library(grConvert)
@@ -149,11 +149,11 @@ if (file.exists("../img/FITC-HIOs-cairo.svg.Rdata") == TRUE) {
     load(file = "../img/FITC-HIOs-cairo.svg.Rdata")
 }
 
-fig1a <- gTree(children = gList(pictureGrob(figure1a, ext = "gridSVG"))) 
+fig4a <- gTree(children = gList(pictureGrob(figure1a, ext = "gridSVG"))) 
 
-fig1a <- qplot(1:100, 1:100, alpha = I(0)) +
+fig4a <- qplot(1:100, 1:100, alpha = I(0)) +
     theme_bw() +
-    annotation_custom(fig1a, xmin = -Inf,
+    annotation_custom(fig4a, xmin = -Inf,
                       xmax = Inf,
                       ymin = -Inf,
                       ymax = Inf) +
@@ -171,8 +171,8 @@ fig1a <- qplot(1:100, 1:100, alpha = I(0)) +
                                              hjust  =  0), 
                    legend.position = "none")
 
-## Setup for figure 1B
-fig1b <- ggplot(data = data_mean, aes(x = hr, y = mean, fill = treatment)) +
+## Setup for figure 4B
+fig4b <- ggplot(data = data_mean, aes(x = hr, y = mean, fill = treatment)) +
     geom_errorbar(aes(ymin = mean - sem,
                       ymax = mean + sem,
                       color = treatment),
@@ -213,5 +213,5 @@ fig1b <- ggplot(data = data_mean, aes(x = hr, y = mean, fill = treatment)) +
 ## setup multipanel PDF plot
 layout <- rbind(c(rep(1, times = 4),rep(2, times = 5)))
 pdf(file = "../results/figure4.pdf", width = 8800/300, height = 4000/300, onefile = FALSE)
-gridExtra::grid.arrange(fig1a,fig1b, layout_matrix = layout)
+gridExtra::grid.arrange(fig4a,fig4b, layout_matrix = layout)
 dev.off()
