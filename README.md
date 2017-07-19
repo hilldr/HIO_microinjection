@@ -18,6 +18,12 @@ This protocol describes the measurement of epithelial barrier permeability in re
 
 Advances in 3D culture of intestinal tissues obtained through biopsy or generated from pluripotent stem cells via directed differentiation have resulted in sophisticated *in vitro* models of the intestinal mucosa. Leveraging these emerging model systems will require adaptation of tools and techniques developed for 2D culture systems and animals. Here, we describe a technique for measuring epithelial barrier permeability in human intestinal organoids in real-time. This is accomplished by microinjection of fluorescently-labeled dextran and imaging on an inverted microscope fitted with epifluorescent filters. Real-time measurement of the barrier permeability in intestinal organoids facilitates the generation of high-resolution temporal data in human intestinal epithelial tissue, although this technique is can also be applied to fixed timepoint imaging approaches. This protocol is readily adaptable for the measurement of epithelial barrier permeability following exposure to phamacologic agents, bacterial products or toxins, or live microorganisms.  With minor modifications, this protocol can also serve as a general primer on microinjection of intestinal organoids and users may choose to supplement this protocol with additional or alternative downstream applications following microinjection.
 
+## Representative data
+
+![](results/figure4.png)
+
+__A__ Stem-cell derived human intestinal organoids (HIO) microinjected with 2 mg/ml FITC-dextran (4 kDa) imaged for 20 hours. HIOs were also microinjected with PBS (control) or the *Clostridium difficile* toxin TcdA (12.8 ng/$\mu$l) or treated with 2 mM EGTA added to the external culture media. 4X Magnification. __B__ Plot of mean normalized FITC intensity over time in HIOs treated with PBS (control), TcdA, or EGTA. Error bars represent S.E.M and N = 4-6 HIOs per group.}
+
 ## How to use this protocol
 
 This protocol is on GitHub for a reason. We invite you to ask questions, make suggestions, and engage with the science presented here. Use the GitHub "Issues" feature to post questions and comments that you want to make available for public discussion. Contact the authors if you would like to be added as a contributor to this repository. Submit a pull request. Or fork this repository and make your own changes
