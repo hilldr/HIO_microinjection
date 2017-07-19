@@ -22,7 +22,7 @@ Advances in 3D culture of intestinal tissues obtained through biopsy or generate
 
 ![](results/figure4.png)
 
-__A__ Stem-cell derived human intestinal organoids (HIO) microinjected with 2 mg/ml FITC-dextran (4 kDa) imaged for 20 hours. HIOs were also microinjected with PBS (control) or the *Clostridium difficile* toxin TcdA (12.8 ng/&mu;l) or treated with 2 mM EGTA added to the external culture media. 4X Magnification. __B__ Plot of mean normalized FITC intensity over time in HIOs treated with PBS (control), TcdA, or EGTA. Error bars represent S.E.M and N = 4-6 HIOs per group.}
+__A__ Stem-cell derived human intestinal organoids (HIO) microinjected with 2 mg/ml FITC-dextran (4 kDa) imaged for 20 hours. HIOs were also microinjected with PBS (control) or the *Clostridium difficile* toxin TcdA (12.8 ng/&mu;l) or treated with 2 mM EGTA added to the external culture media. 4X Magnification. __B__ Plot of mean normalized FITC intensity over time in HIOs treated with PBS (control), TcdA, or EGTA. Error bars represent S.E.M and N = 4-6 HIOs per group.
 
 ## How to use this protocol
 
