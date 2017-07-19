@@ -57,4 +57,7 @@ $(FINALTEXT).docx: $(TEXT).tex
 
 .PHONY: clean
 clean:
-	cd src && rm *.aux *.blg *.out *.bbl *.log
+	echo "Removing latex log files..."
+	cd src && rm *.aux *.blg *.out *.bbl *.log *.xml *.bcf
+	echo "Removing extracted image files..."
+	rm -r ../data/raw_img/

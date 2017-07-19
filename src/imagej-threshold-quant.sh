@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/bash
 ## ImageJ threshold quantification processing script
 ## David R. Hill
 

@@ -104,7 +104,10 @@ $(FINALTEXT).docx: $(TEXT).tex
 
 .PHONY: clean
 clean:
-	cd src && rm *.aux *.blg *.out *.bbl *.log
+	echo "Removing latex log files..."
+	cd src && rm *.aux *.blg *.out *.bbl *.log *.xml *.bcf
+	echo "Removing extracted image files..."
+	rm -r ../data/raw_img/
 #+end_src
 
 #+LATEX:\section*{SUMMARY}
@@ -320,8 +323,7 @@ HIOs were differentiated from human pluripotent stem cells and cultured in matri
 Post-hoc analysis of imaging data revealed substantial differences in the retention of FITC fluorescence (*Figure 4*). HIOs injected with PBS retained nearly all of the fluorescent signal present at /t/ = 0, however HIOs that were also injected with TcdA of treated with EGTA exhibited a substantial decrease in fluorescent intensity by 8 hours post-microinjection (*Figure 4A*). Imaging data were quantified for all HIOs at all time points to generate a high-resolution dataset representing the relative change in fluorescent intensity over time in each experimental condition (*Figure 4B*). Differences in epithelial permeability were evaluated by calculating the mean elimination time (\textit{t}$_\frac{1}{2}$) of FITC for each treatment group (*Table 1*) and comparing differences in \textit{t}$_\frac{1}{2}$ between groups using the Student's /t/-test. Control-treated HIOs retained the majority of FITC fluorescent signal for more than 16 hours (\textit{t}$_\frac{1}{2}$ = src_R[:session *R* :exports results :results text]{format(as.numeric(data.thalf.stats[1,2]), digits = 2)} $\pm$ src_R[:session *R* :exports results :results text]{format(as.numeric(data.thalf.stats[1,5]), digits = 2)} h). Treatment with EGTA significantly reduced FITC-dextran elimination time relative to control HIOs (\textit{t}$_\frac{1}{2}$ = src_R[:session *R* :exports results :results text]{format(as.numeric(data.thalf.stats[2,2]), digits = 2)} $\pm$ src_R[:session *R* :exports results :results text]{format(as.numeric(data.thalf.stats[2,5]), digits = 2)} h; /P/ = \num{src_R[:session *R* :exports results :results text]{format(test1, digits = 2)}}). Consistent with previously published results\supercite{Leslie:2015}, microinjection of TcdA significantly increased epithelial barrier permeability relative to control treatment (\textit{t}$_\frac{1}{2}$ = src_R[:session *R* :exports results :results text]{format(as.numeric(data.thalf.stats[3,2]), digits = 2)} $\pm$ src_R[:session *R* :exports results :results text]{format(as.numeric(data.thalf.stats[3,5]), digits = 2)} h; /P/ = \num{src_R[:session *R* :exports results :results text]{format(test2, digits = 2)}}). Thus both external (EGTA) and microinjected (TcdA) compounds are capable of inducing significant alterations in epithelial barrier permeability in HIOs. These results suggests that the effects of a wide range of pharmacologic agents, metabolites, bacterial products, cytokines, growth factors, and other compounds on epithelial barrier function may be evaluated using this approach.
 
 
-#+begin_src sh :tangle imagej-threshold-quant.sh :eval no :exports none
-#! /bin/bash
+#+begin_src sh :tangle imagej-threshold-quant.sh :eval no :exports none :shebang "#!/bin/bash"
 ## ImageJ threshold quantification processing script
 ## David R. Hill
 
