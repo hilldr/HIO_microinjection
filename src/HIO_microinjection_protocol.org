@@ -289,7 +289,7 @@ macro "Threshold measurement" {
 }
 #+END_SRC
 ** ImageJ will produce a large table containing the area of all pixels within the threshold intensity range, and the the mean, median, minimum, and maximum (limit) intensity value for the area within the threshold intensity limits. Save this as a CSV or Microsoft Excel data table.
-** Change in intensity over time can be computed in Excel by manipulating the data table or can be automated using a suitable programming language. An example analysis script written in R\supercite{CRAN:2017} is provided with this manuscript.
+** COMMENT Change in intensity over time can be computed in Excel by manipulating the data table or can be automated using a suitable programming language. An example analysis script written in R\supercite{CRAN:2017} is provided with this manuscript.
 #+LATEX: \begin{bclogo}[logo=\bccrayon, couleurBarre=gray!10, noborder=true, couleur=gray!10]{     Elimination time (\textit{t}$_\frac{1}{2}$) derrivation}
 For each HIO, relative fluorescence intensity may be quantified as \(\frac{FITC_{t=n}}{FITC_{t=0}}\). Elimination time\supercite{rosenbaum2016basic} (\textit{t}$_\frac{1}{2}$) of FITC-dextran in the HIO lumen was calculated as follows:
 
@@ -521,6 +521,12 @@ fig4a <- qplot(1:100, 1:100, alpha = I(0)) +
                       xmax = Inf,
                       ymin = -Inf,
                       ymax = Inf) +
+    annotate("text", x = 90, y = 10, 
+             label = as.character(expression("250"~mu*"m")),
+             color = "white", size = 10, parse = TRUE) +
+    annotate("segment",
+             x = 90-3.75, xend = 90+3.75, y = 6, yend = 6,
+             color = "white", size = 10) +
     ggtitle("A") + coord_fixed(ratio = 1) +
     theme(panel.grid.major = element_blank(),
                    panel.grid.minor = element_blank(),
@@ -549,10 +555,12 @@ fig4b <- ggplot(data = data_mean, aes(x = hr, y = mean, fill = treatment)) +
     theme(axis.text.x = element_text(size = 32,
                                      angle = 0,
                                      hjust = 0.5,
-                                     face = "bold"),
+                                     face = "bold",
+				     color = "black"),
           axis.text.y = element_text(size = 32,
                                      face = "bold",
-                                     hjust = 1),
+                                     hjust = 1,
+				     color = "black"),
           legend.position = c(0.1,0.15),
           legend.key = element_rect(fill = "white"),
 	  legend.text = element_text(size = 32,
@@ -585,26 +593,26 @@ dev.off()
 #+BEGIN_LATEX
 \begin{figure}
 \includegraphics[width=0.95\linewidth]{./results/figure4.pdf}
-\caption{\textbf{A} Stem-cell derived human intestinal organoids (HIO) microinjected with 2 mg/ml FITC-dextran (4 kDa) imaged for 20 hours. HIOs were also microinjected with PBS (control) or the \textit{Clostridium difficile} toxin TcdA (12.8 ng/$\mu$l) or treated with 2 mM EGTA added to the external culture media. 4X Magnification. \textbf{B} Plot of mean normalized FITC intensity over time in HIOs treated with PBS (control), TcdA, or EGTA. Error bars represent S.E.M and N = 4-6 HIOs per group.}
+\caption{\textbf{A} Stem-cell derived human intestinal organoids (HIO) microinjected with 2 mg/ml FITC-dextran (4 kDa) imaged for 20 hours. HIOs were also microinjected with PBS (control) or the \textit{Clostridium difficile} toxin TcdA (12.8 ng/$\mu$l) or treated with 2 mM EGTA added to the external culture media. 4X Magnification. \textbf{B} Plot of mean normalized FITC intensity over time in HIOs treated with PBS (control), TcdA, or EGTA. Error bars represent S.E.M and \textit{n} = 11 HIOs (Control), 3 HIOs (EGTA), 6 HIOs (TcdA).}
 \end{figure}
 #+END_LATEX
 
 #+begin_src R :session *R* :exports none :eval no
-data.thalf.stats <- dplyr::select(data.thalf.stats, -num, -min, -max, - stdev)
+data.thalf.stats <- dplyr::select(data.thalf.stats, -min, -max, - stdev)
 xtable::xtable(data.thalf.stats)
 #+end_src
 
 #+BEGIN_LaTeX
-% latex table generated in R 3.4.0 by xtable 1.8-2 package
-% Thu Jun 22 14:05:37 2017
+ % latex table generated in R 3.4.1 by xtable 1.8-2 package
+% Mon Aug 21 12:57:23 2017
 \begin{table}[ht]
 \centering
-\begin{tabular}{l|cccc}
-{\bf Treatment} & {\bf \textit{t}$_\frac{1}{2}$} & {\bf SEM} & {\bf Lower 95\% CI} & {\bf Upper 95\% CI} \\ 
+\begin{tabular}{l|ccccc}
+{\bf Treatment} & & {\bf \textit{n}} & {\bf \textit{t}$_\frac{1}{2}$} & {\bf SEM} & {\bf Lower 95\% CI} & {\bf Upper 95\% CI} \\ 
   \hline
-Control & 17.11 & 0.30 & 16.45 & 17.78 \\ 
-EGTA & 2.58 & 0.19 & 1.78 & 3.38 \\ 
-TcdA & 7.56 & 0.63 & 5.93 & 9.18 \\ 
+Control & 17.11 &  11 & 0.30 & 16.45 & 17.78 \\ 
+EGTA & 2.58 &   3 & 0.19 & 1.78 & 3.38 \\ 
+TcdA & 7.56 &   6 & 0.63 & 5.93 & 9.18 \\ 
 \end{tabular}
 \caption{Mean elimination time (\textit{t}$_\frac{1}{2}$) for FITC-dextran in HIOs treated with EGTA or TcdA. Units are hours post-microinjection.}
 \end{table}
