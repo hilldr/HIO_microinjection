@@ -123,6 +123,9 @@ Recent developments in /in vitro/ organogenesis have led to the adoption of 3D t
 
 This protocol is intended as a guide for the measurement of epithelial barrier permeability in hPSC-derived HIOs and tissue-derived HIOs using fluorescent microscopy. With minor modifications, it can also serve as a general primer on microinjection of HIOs with experimental compounds. Users may supplement this protocol with additional or alternative downstream applications after microinjection.
 
+#+LATEX:\section*{CLINICAL SAMPLE USE}
+Normal, de-identified human adult intestinal tissue was obtained from deceased organ donors through the Gift of Life, Michigan. Human ES cell line H9 (NIH registry #0062) was obtained from the WiCell Research Institute. All human tissue used in this work was obtained from non-living donors, was de-identified and was conducted with approval from the University of Michigan IRB (protocol # HUM00093465 and HUM00105750). 
+
 #+LATEX:\section*{PROTOCOL}
 * Microinjector setup 
 ** Gather the materials listed in "Required Reagents". 
@@ -267,10 +270,15 @@ Exposure time should be varied to suit the strength of the fluorescent signal. I
 ** Close the environmental chamber and start the imaging process. Ensure that the positions of the HIOs are correctly programmed by evaluating the first set of images recorded by the computer before leaving the device the record the timecourse.
 *** Make note of the unique ID number assigned to each programmed microscopy position and the images captured at that position. This will be used to associate images with specific HIOs and treatments.
 ** At the end of the planned timecourse, export and save all image files as 8-bit greyscale TIFF images.
-** The HIO tissue and media may be stored for histology, PCR, Western blot, or other downstream analysis.
+** The HIO tissue and media may be stored for histology \supercite{bancroft2008theory}, PCR\supercite{kennedy2011pcr}, Western blot \supercite{kurien2015western}, or other downstream analysis.
 
 * Post-imaging analysis
 ** Ensure that ImageJ \supercite{Schneider:2012} is installed and working properly on the computer to be used for analysis.
+
+#+LATEX: \begin{bclogo}[logo=\bcinfo, couleurBarre=Black, noborder=true, couleur=gray!10]{     Alternate approach}
+Fiji \supercite{Schindelin:2012} is an alternate distribution of the ImageJ core programming that will work equally well for this analysis.
+#+LATEX: \end{bclogo}
+
 ** Start the batch analysis by selecting "Process" then "Batch" and finally "Macro.." from the ImageJ menu
 ** Set the "Input..." to the directory containing the TIFF images collected during the experimental timecourse. Open the "thesholdmeasure.ijm" ImageJ macro file or directly copy/paste the macro code into the window. Click "Process" to begin processing the files.
 #+LATEX: \begin{bclogo}[logo=\bcinfo, couleurBarre=Black, noborder=true, couleur=gray!10]{     Setting the image threshold value}
@@ -289,7 +297,7 @@ macro "Threshold measurement" {
 }
 #+END_SRC
 ** ImageJ will produce a large table containing the area of all pixels within the threshold intensity range, and the the mean, median, minimum, and maximum (limit) intensity value for the area within the threshold intensity limits. Save this as a CSV or Microsoft Excel data table.
-** COMMENT Change in intensity over time can be computed in Excel by manipulating the data table or can be automated using a suitable programming language. An example analysis script written in R\supercite{CRAN:2017} is provided with this manuscript.
+** Change in intensity over time can be computed in Excel by manipulating the data table \supercite{winston2016microsoft} or can be automated using a suitable programming language. An example analysis script written in R\supercite{CRAN:2017} is provided with this manuscript.
 #+LATEX: \begin{bclogo}[logo=\bccrayon, couleurBarre=gray!10, noborder=true, couleur=gray!10]{     Elimination time (\textit{t}$_\frac{1}{2}$) derrivation}
 For each HIO, relative fluorescence intensity may be quantified as \(\frac{FITC_{t=n}}{FITC_{t=0}}\). Elimination time\supercite{rosenbaum2016basic} (\textit{t}$_\frac{1}{2}$) of FITC-dextran in the HIO lumen was calculated as follows:
 
@@ -608,8 +616,8 @@ xtable::xtable(data.thalf.stats)
 \begin{table}[ht]
 \centering
 \begin{tabular}{l|ccccc}
-{\bf Treatment} & & {\bf \textit{n}} & {\bf \textit{t}$_\frac{1}{2}$} & {\bf SEM} & {\bf Lower 95\% CI} & {\bf Upper 95\% CI} \\ 
-  \hline
+{\bf Treatment} & {\bf \textit{n}} & {\bf \textit{t}$_\frac{1}{2}$} & {\bf SEM} & {\bf Lower 95\% CI} & {\bf Upper 95\% CI} \\ 
+\hline
 Control & 17.11 &  11 & 0.30 & 16.45 & 17.78 \\ 
 EGTA & 2.58 &   3 & 0.19 & 1.78 & 3.38 \\ 
 TcdA & 7.56 &   6 & 0.63 & 5.93 & 9.18 \\ 
