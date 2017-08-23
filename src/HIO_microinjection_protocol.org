@@ -59,7 +59,7 @@ $(FINALTEXT).pdf: $(TEXT).tex \
 	./img/figure2.pdf \
 	./img/figure3.pdf
 	sed -i 's/{\\bfseries\\sffamily }/{\\sffamily }/g' $(TEXT).tex
-	sed -i 's/ / /g' ./src/bibliography.bib #eliminates a common unicode space character bib file
+	sed -i 's/ / /g' ./src/bibliography.bib #eliminates a common unicode space character from bib file
 	pdflatex -output-directory src $(TEXT)
 	pdflatex -output-directory src $(TEXT)
 	cp ./src/bibliography.bib ./
@@ -137,19 +137,19 @@ Normal, de-identified human adult intestinal tissue was obtained from deceased o
 \caption{Basic layout of a microinjector and micromanipulator for HIO microinjection.}
 \end{figure}
 #+END_LATEX
-** Position the dissecting scope so that the eye piece can be used through the access port.
+** Clean the microinjection setup with 70% ethanol or other disinfectant prior to experimental use. Avoid prolonged exposure to disinfectants containing bleach, which may corrode the microinjection equipment.
+** Position the dissecting scope so that the eye piece can be used through the access port in the shield for the biosafety cabinet.
 #+LATEX: \begin{bclogo}[logo=\bcinfo, couleurBarre=Black, noborder=true, couleur=gray!10]{     Alternate setup}
 A clean bench with positive air flow system may be used in place of a biosafety cabinet with microscope access points.
 #+LATEX: \end{bclogo}
-** Assemble the micromanipulator on the right side of the microscope and adjust so that the controls can be easily reached and adjusted. The micromanipulator should be mounted on an iron plate or otherwise stabilized. 
+** Assemble the micromanipulator on the right side of the microscope according to the manufacturer's instructions and adjust so that the controls can be easily reached and adjusted. The micromanipulator should be mounted on an iron plate or otherwise stabilized. 
 #+LATEX: \begin{bclogo}[logo=\bcinfo, couleurBarre=Black, noborder=true, couleur=gray!10]{     Lefties}
 Left-handed users may want to place the micromanipulator to the left of the dissecting scope.
 #+LATEX: \end{bclogo}
-** Mount the Micropipette Holder to the micromanipulator arm and connect the analog tubing. 
+** Mount the Micropipette Holder to the micromanipulator arm and connect the analog tubing by inserting it into the Micropipette Holder. 
 ** Fill the 10 ml glass syringe with approximately 5-7 ml of sterile mineral oil.
-** Connect the 10ml glass syringe filled with mineral oil to the open end of the analog tubing. Place the glass syringe to the left of the dissecting scope, opposite from the micromanipulator.
-** Gently depress the syringe, pushing mineral oil through the tubing. Flush 10-20 drops of mineral oil from the tip of the micropipette holder. This step removes all air from the tubing and should be performed before each microinjection session.
-** Clean the microinjection setup with 70% ethanol or other disinfectant prior to experimental use. Avoid prolonged exposure to disinfectants containing bleach, which may corrode the microinjection equipment.
+** Connect the 10ml glass syringe filled with mineral oil to the open end of the analog tubing using the Luer lock mechanism. Place the glass syringe to the left of the dissecting scope, opposite from the micromanipulator.
+** Gently depress the syringe, pushing mineral oil through the tubing. Flush approximately 10 drops of mineral oil from the tip of the micropipette holder and collect in a Petri dish or similar vessel and discard. This step removes all air from the tubing and should be performed before each microinjection session.
 * Preparation for microinjection
 
 ** 24 hours prior to microinjection: 
@@ -158,21 +158,21 @@ Left-handed users may want to place the micromanipulator to the left of the diss
 Higher or lower concentrations of FITC-dextran may be used, ranging from approximately 0.1 - 10 mg/ml. Adjust the concentration of FITC-dextran to suit downstream the imaging application.
 #+LATEX: \end{bclogo}
 
-*** Setup organoid cultures on 4- or 8-well glass chamber slides or other culture vessel suitable for live microscopy, with up to 4-6 HIOs per well, embedded in 50 \mu{}l matrigel and cultured in ENR media. Take care to space the organoids evenly so as to avoid capturing multiple HIOs in a single microscopic field during real-time imaging analysis.
+*** Setup organoid cultures on 4- or 8-well glass chamber slides or other culture vessel suitable for live microscopy, with up to 4-6 HIOs per well, embedded in 50 \mu{}l Matrigel and cultured in ENR media. Take care to space the organoids evenly (approximately 5 mm apart) so as to avoid capturing multiple HIOs in a single microscopic field during real-time imaging analysis.
 #+LATEX: \begin{bclogo}[logo=\bcinfo, couleurBarre=Black, noborder=true, couleur=gray!10]{     Use of tissue-derived HIOs}
-This protocol was developed using stem-cell derived HIOs and the representative results (see below) demonstrate the use of this tissue culture model. However, the same protocol is easily adapted to tissue-derived intestinal epithelial organoids \supercite{Sato:2009,Miyoshi:2013}. A representative image demonstrating microinjection of tissue-derived intestinal epithelial organoids is shown in *Figure 3*. Tissue-derived HIOs are typically smaller than PSC-derived HIOs and lack the supporting mesenchymal basolateral cell structure\supercite{Sato:2009,Miyoshi:2013,Sato:2011}. Microinjection of tissue-derived HIOs may require a greater degree of technical ability and experience. The degree to which epithelial barrier permeability data obtained using tissue-derived HIOs may correlate with hPSC-derived HIOs is unknown. 
+This protocol was developed using stem-cell derived HIOs and the representative results (see below) demonstrate the use of this tissue culture model. However, the same protocol is easily adapted to tissue-derived intestinal epithelial organoids \supercite{Sato:2009,Miyoshi:2013}. A representative image demonstrating microinjection of tissue-derived intestinal epithelial organoids is shown in *Figure 3B*. Tissue-derived HIOs are typically smaller than PSC-derived HIOs and lack the supporting mesenchymal basolateral cell structure\supercite{Sato:2009,Miyoshi:2013,Sato:2011}. Microinjection of tissue-derived HIOs may require a greater degree of technical ability and experience. The degree to which epithelial barrier permeability data obtained using tissue-derived HIOs may correlate with hPSC-derived HIOs is unknown. 
 #+LATEX: \end{bclogo}
 
+*** Incubate HIOs in a standard cell culture incubator at 42 \deg{}C and 5% CO_{2} prior to microinjection.
 ** At 30 minutes prior to microinjection, turn on the biosafety cabinet and raise the glass shield to the optimal working height
-** Before removing your HIOs from culture perform the following tasks:
-*** Remove all unnecessary items from the biosafety cabinet. Clutter increases the risk of spills or other accidents when working in confined spaces.
-*** Spray and thoroughly clean the work surface with 70% ethanol or other disinfectant. Wipe clean using a paper towel. 
-*** Check the level of mineral oil in the glass syringe attached to the microinjector. If there is less than 3 mL of mineral oil remaining unscrew the syringe and refill inside the biosafety cabinet, being careful to avoid introducing bubbles. Do not fill more than 7 ml.
-*** Turn on the lamp to illuminate the dissecting scope. Adjust the eyepiece for personal comfort.
-*** Position the micromanipulator to the right of the dissecting scope. The micromanipulator is secured to an iron plate using a magnetic stand. Switch the magnetic stand to the OFF position to adjust the position of the micromanipulator and secure the stand to the iron plate by setting the magnetic stand to the ON position.
-*** Microcapillary installation
-**** Retrieve a single glass filament from the 15 ml tube next to the micropippette puller.
-**** Thread the glass filament through the copper heating coil of the micropippette puller. See *Figure 2* for a guide to preparing the micropippette puller.
+** Remove all unnecessary items from the biosafety cabinet. Clutter increases the risk of spills or other accidents when working in confined spaces.
+** Spray and thoroughly clean the work surface with 70% ethanol or other disinfectant. Wipe clean using a paper towel. 
+** Check the level of mineral oil in the glass syringe attached to the microinjector. If there is less than 3 mL of mineral oil remaining unscrew the syringe and refill inside the biosafety cabinet, being careful to avoid introducing bubbles. Do not fill more than 7 ml.
+** Turn on the lamp to illuminate the dissecting scope. Adjust the eyepiece for personal comfort.
+** Position the micromanipulator to the right of the dissecting scope. The micromanipulator is secured to an iron plate using a magnetic stand. Switch the magnetic stand to the OFF position to adjust the position of the micromanipulator and secure the stand to the iron plate by setting the magnetic stand to the ON position.
+** Microcapillary installation
+*** Retrieve a single 1 mm glass filament from the storage container provided by the manufacturer.
+*** Insert the  glass filament through the center of the copper heating coil of the micropippette puller. See *Figure 2* for a guide to preparing the micropippette puller.
 
 #+BEGIN_LATEX
 \begin{figure}
@@ -182,35 +182,43 @@ This protocol was developed using stem-cell derived HIOs and the representative 
 \end{figure}
 #+END_LATEX
 
-**** Secure the glass filament using the clamps.
-**** Position the filament so that the copper heating coil is approximately in the middle of the glass filament. This will ensure that the puller generates two usable microinjection needles from each glass filament.
-**** Tighten the top clamp first, making sure that the glass capillary is secured within the notched grove to prevent breakage.
-**** Extend the puller arm to its maximum vertical position before tightening the bottom clamp. */This step is essential/*. Failure to fully extend the puller arm will result in irregular separation of the two sections of the glass filament.
-**** Check the settings on the heating and pulling mechanism. Heat #1 should be selected with the toggle. HEAT #1 should read 990 and PULL should be set at 059.
-**** Turn on the instrument using the On/Off toggle.
-**** Close the protective plexiglass shield and press the PULL button on the bottom right face of the puller. The copper coil will begin to heat and will glow bright orange. As the temperature rises, the glass capillary will begin to stretch and eventually separate. Upon separation of the two ends of the glass filament, the instrument will power down.@@latex:\\@@ 
+*** Position the filament so that the copper heating coil is approximately in the middle of the glass filament. This will ensure that the puller generates two usable microinjection needles from each glass filament.
+*** Secure the glass filament using the clamps by tightening the top clamp first, making sure that the glass filament is secured within the notched grove to prevent breakage.
+*** Extend the puller arm to its maximum vertical position before tightening the bottom clamp. */This step is essential/*. Failure to fully extend the puller arm will result in irregular separation of the two sections of the glass filament.
+*** Check the settings on the heating and pulling mechanism. Heat #1 should be selected with the toggle. HEAT #1 should read =990= and PULL should be set at =059= (*Figure 2*).
+*** Turn on the instrument using the On/Off toggle.
+*** Close the protective plexiglass shield and press the PULL button on the bottom right face of the puller. The copper coil will begin to heat and will glow bright orange. As the temperature rises, the glass filament will begin to stretch and eventually separate. Upon separation of the two ends of the glass filament, the instrument will power down. @@latex:\\@@ 
 #+LATEX: \begin{bclogo}[logo=\dangersign, couleurBarre=red, noborder=true, couleur=yellow!20]{     DANGER: Extreme heat} 
 The copper coil is extremely hot. Stand clear and wait approximately 30 s after separation of the glass filaments before handling. 
 #+LATEX: \end{bclogo}
-**** Being careful to avoid touching the copper coil, remove a one of the glass microinjection capillaries. The capillary should have a very fine point. Handle the capillary carefully with gloves and immediately proceed to the biosafety cabinet containing the microinjector setup. @@latex:\\@@
+**** /The pulled glass filament will be referred to as a *microcapillary* from this point forward in the protocol./
+*** Being careful to avoid touching the copper coil, remove a one of the glass microcapillaries. The capillary should have a very fine point. Handle the capillary carefully with gloves and immediately proceed to the biosafety cabinet containing the microinjector setup. @@latex:\\@@
 #+LATEX: \begin{bclogo}[logo=\dangersign, couleurBarre=red, noborder=true, couleur=yellow!20]{     DANGER: Sharp point} 
-The glass microcapillary is extremely sharp. Handle with care.
+The glass microcapillary is extremely sharp. Handle the microcapillary carefully with latex or nitrile gloves and immediately proceed to the biosafety cabinet containing the microinjector setup to limit the potential for contamination of the sterilized glass.
 #+LATEX: \end{bclogo}
-**** Insert the blunt end of the pulled microcapillary into the open end of the Micropipette Holder 
-**** Secure the microcapillary to the Micropipette Holder by turning the screw clamp. Do not over-tighten the screw clamp.
-**** Ensure that the Micropipette Holder is positioned within the micromanipulator arm in such a way that it is stabilized by the grooved slot on the top face. /Failure to correctly secure the microcapillary can result in instability or breakage of the microcapillary during microinjection/.
-**** Open the tip of the microcapillary needle. During preparation of the pulled microcapillary needle glass at the tip of the point will likely melt in such a way as to seal the pointed end of the microcapillary. To remove this blockage:
-**** Position the micromanipulator such that the microcapillary is pointed down at the glass stage of the dissecting scope without touching this surface.
-**** Find a sterile plastic surface (the underside of a culture plate lid works perfectly) and place it on the microscope stage directly underneath the microcapillary needle.
-**** Center the tip of the microcapillary under the viewing area and ensure that it is visible when looking through the eyepiece of the microscope.
-**** Using the micromanipulator controls, slowly advance the micromanipulator arm and microcapillary towards the sterile plastic culture lid until the tip barely contacts the plastic surface. This should be sufficient to induce a small break at the tip of the needle. 
-**** Back the microcapillary away from the sterile surface to minimize the chance of accidental breakage before proceeding.
-**** Check microcapillary for flow by depressing the glass syringe, pushing mineral oil through the tubing. If the end of the microcapillary has been opened you will see a small droplet of mineral oil emerge from the tip of the microcapillary after a few seconds. If this does not occur, repeat the previous step and re-test. Aim for the smallest possible break that allows for fluid flow from the microcapillary in order to minimize the damage to the HIO during microinjection.
+*** Loosen the end cap of the micromanipulator arm and insert the blunt end of the pulled microcapillary into the open end of the Micropipette Holder and push it inward until it stops. 
+*** Secure the blunt end of the microcapillary to the micromanipulator arm by re-tightening the end cap. 
 
+#+LATEX: \begin{bclogo}[logo=\checkmark, couleurBarre=blue, noborder=true, couleur=blue!10]{}
+When installing the microcapillary  on the microinjection system take care to avoid touching the sharpened end. This will reduce the chance of contamination and preserve the fine point for microinjection. Failure to correctly secure the microcapillary can result in instability or breakage of the glass filament during microinjection.
+#+LATEX: \end{bclogo}
+
+*** Open the tip of the glass microcapillary. During preparation of the pulled glass microcapillary,  the tip of the point will likely melt in such a way as to seal the pointed end of the microcapillary. To remove this blockage:
+**** Position the micromanipulator such that the microcapillary is pointed down at the glass stage of the dissecting scope without touching this surface.
+**** Find a sterile plastic surface (the underside of a culture plate lid works perfectly) and place it on the microscope stage directly underneath the microcapillary needle on the stage of the dissecting scope.
+**** Center the tip of the microcapillary under the viewing area and ensure that it is visible when looking through the eyepiece of the microscope under 1.5X magnification.
+**** Using the micromanipulator controls, slowly advance the micromanipulator arm and microcapillary towards the sterile plastic culture lid until the tip barely contacts the plastic surface and the tip of the microcapillary breaks free.  This should be sufficient to induce a small break at the tip of the needle. 
+
+#+LATEX: \begin{bclogo}[logo=\checkmark, couleurBarre=blue, noborder=true, couleur=blue!10]{}
+Aim for the smallest possible break that allows for fluid flow from the glass filament in order to minimize the damage to the HIO during microinjection.
+#+LATEX: \end{bclogo}
+
+**** Back the microcapillary away from the sterile surface to minimize the chance of accidental breakage before proceeding.
+**** Check the microcapillary for flow by depressing the glass syringe, pushing mineral oil through the tubing. If the end of the microcapillary has been opened you will see a small droplet of mineral oil emerge from the tip of the microcapillary after a few seconds. If this does not occur, repeat the previous step and re-test. 
 
 
 * Sterile microinjection
-Once the microcapillary has been prepared, installed, and tested you may begin microinjecting HIOs. *Figure 2* illustrates a tissue-derived HIO that has been successfully injected with FITC-dextran.
+Once the microcapillary has been prepared, installed, and tested you may begin microinjecting HIOs. *Figure 3* illustrates a tissue-derived HIO that has been successfully injected with FITC-dextran.
 #+BEGIN_LATEX
 \begin{figure}
 \centering
@@ -219,7 +227,7 @@ Once the microcapillary has been prepared, installed, and tested you may begin m
 \end{figure}
 #+END_LATEX
 
-** Fill the microcapillary with your injection material. Submerge the microcapillary in the injection suspension, being careful to avoid breaking the tip of the microcapillary against the sides or bottom of the tube. Once the microcapillary is submerged in the solution, pull back on the mineral oil syringe to draw your suspension into the microcapillary
+** Fill the microcapillary with your injection material. Submerge the tip of the microcapillary in the FITC-dextran injection suspension, being careful to avoid breaking the tip of the microcapillary against the sides or bottom of the tube. Once the tip of the microcapillary is submerged in the solution, pull back on the mineral oil syringe to draw your suspension into the microcapillary
 #+LATEX: \begin{bclogo}[logo=\bcinfo, couleurBarre=Black, noborder=true, couleur=gray!10]{     Preparing your suspension}
 It is recommended that you use 1.5 mL or 0.5 mL eppendorf tubes for your injection solutions/cultures since these will be the most easily accessible to the installed microcapillary. If the suspension is highly viscous or if the opening of the microcapillary is exceptionally small, it may take several second to fill the microcapillary. Do not draw microinjection suspensions into the plastic microinjection tubing as this may contaminate the entire microinjection system.
 #+LATEX: \end{bclogo}
@@ -227,17 +235,17 @@ It is recommended that you use 1.5 mL or 0.5 mL eppendorf tubes for your injecti
 ** Stop filling the microcapillary when your microinjection suspension fills 90% of the length of the glass microcapillary. Depress the syringe slightly before withdrawing the microcapillary from the microinjection solution to ensure that the tip of the microcapillary does not contain pockets of air. If the examination of the microcapillary reveals pockets of air, empty and re-fill.
 ** Remove your HIO culture plate(s) from the cell culture incubator and transfer to the biosafety cabinet with the microinjector.
 ** Remove the lid from your HIO culture plate within the biosafety cabinet and center the first well on the microscope stage so that it is clearly visible through the eyepiece of the scope at the lowest magnification setting.
-** Position the micromanipulator arm such that the microcapillary is pointed down into the HIO culture well at an angle >45\deg{} relative to the microscope stage. This is most easily accomplished by manually turning the entire manipulator assembly on its horizontal axis, since the fine controls (black dials) have a limited range of motion.The tip of the microcapillary should be positioned above your first culture well at approximately 1 cm above the surface of the media.
+** Turn the micromanipulator arm such that the microcapillary is pointed down into the HIO culture well at an angle >45\deg{} relative to the microscope stage. This is most easily accomplished by manually turning the entire micromanipulator arm assembly on its horizontal axis at the point where the horizontal micromanipulator arm support meet the vertical stand, since the fine controls (black dials) have a limited range of motion.The tip of the microcapillary should be positioned above your first culture well at approximately 1 cm above the surface of the media (*Figure 3A*).
 ** Check that both the tip of the microcapillary and the HIO(s) are visible through the eyepiece. Re-position if necessary.
-** Advance the microcapillary slowly using the X-, Y-, and Z-axis controls.
+** Advance the microcapillary slowly by turning the Z-axis control knob clockwise.
 #+LATEX: \begin{bclogo}[logo=\bcinfo, couleurBarre=Black, noborder=true, couleur=gray!10]{     Judging the position of the microcapillary}
 Judging the position of the microcapillary tip, particularly the depth, requires practice. As the tip breaches the surface of the media, you will notice a slight visual distortion of the microcapillary tip. Proceed with care from this point to avoid breaking the microcapillary against the bottom of the culture plate or damaging the HIOs.
 #+LATEX: \end{bclogo}
-** Pierce the HIO with the microcapillary tip. The outer surface of the HIO will depress slightly as the microcapillary begins to apply pressure and will pop back into shape as the tip penetrates into the lumen. You may or may not be able to identify the tip of the microcapillary within the HIO lumen. 
+** Pierce the HIO with the microcapillary tip. The outer surface of the HIO will depress slightly as the microcapillary begins to apply pressure and will pop back into shape as the tip penetrates into the lumen. It may be difficult to identify the tip of the microcapillary within the HIO lumen. Adjust the lighting or magnification settings of the dissecting scope if you are having difficulty seeing the microcapillary. 
 ** Remove your hands from the micromanipulator controls when the microcapillary is correctly positioned with the tip of the microcapillary in the center of the HIO.
 ** Depress the mineral oil syringe slightly to push the microinjection solution out of the microcapillary and into the HIO lumen. The HIO may expand slightly to accommodate the volume of the injection. 
 #+LATEX: \begin{bclogo}[logo=\bcinfo, couleurBarre=Black, noborder=true, couleur=gray!10]{     How much is too much?}
-Take care to avoid over-filling the HIO as this will cause the organoid to burst. As a rule of thumb, any visible expansion of the HIO volume means it is time to stop. The mean volume of the mature HIO lumen is approximately 1 \mu{}L, but may vary significantly. In some cases it may be difficult to visually confirm successful HIO microinjection. The visibility of clear microinjection suspensions can be enhanced by use of addition of higher concentrations of FITC-dextran
+Take care to avoid over-filling the HIO as this will cause the organoid to burst. As a rule of thumb, any visible expansion of the HIO volume means it is time to stop. The mean volume of the mature HIO lumen is approximately 1 \mu{}L, but may vary significantly. Automated syringe pumps may be used in place of a manual syringe to allow for fine control of the injected volume. In some cases it may be difficult to visually confirm successful HIO microinjection. The visibility of clear microinjection suspensions can be enhanced by use of addition of higher concentrations of FITC-dextran.
 #+LATEX: \end{bclogo}
 ** Withdraw the microcapillary from the HIO using the Z-axis control and position above the surface of the media.
 ** Move to the next HIO target with the microcapillary positioned above the media to avoid accidental damage to the HIOs during manoeuvering and inject in a similar manner. 
@@ -253,36 +261,73 @@ Do not handle the microcapillary near the sharp end. The fine point of the micro
 
 * Pharmacological treatment of HIOs 
 ** To test compounds delivered to the apical epithelium, resuspend in sterile PBS containing 2mg/ml FITC-dextran and microinject into the HIO lumen as indicated above. For the representative experiment, /Clostridium difficile/ toxin TcdA was resuspended at 12.8 ng/\mu{}l in PBS containing FITC-dextran
-** To test compounds delivered to the basolateral compartment, replace the external culture media with new media containing 2mM EGTA (Positive control), PBS vehicle alone (Negative control), or other experimental compound after microinjection of FITC-dextran. 
+** To test compounds delivered to the basolateral compartment, replace the external culture media with new media containing 2mM ethylene glycol-bis(\beta{}-aminoethyl ether)-N,N,N',N'-tetraacetic acid (EGTA) (Positive control), PBS vehicle alone (Negative control), or other experimental compound after microinjection of FITC-dextran. 
 #+LATEX: \begin{bclogo}[logo=\bcinfo, couleurBarre=Black, noborder=true, couleur=gray!10]{     Alternate approach}
 Dosing and timing of the application of pharmacologic compounds, toxins, or other agents may vary according to the experimental question.
 #+LATEX: \end{bclogo}
 
 * Live imaging of microinjected organoids
-** Transfer the culture plates to a fluorescent microscope equipped with a humidified chamber maintained at 37 \deg{}C and 21% O_{2} and 5% CO_{2} with an automated Deltavision-RT Live Cell Imaging System.
+** Begin live imaging immediately following microinjection. Transfer the culture plates to a fluorescent microscope equipped with a humidified chamber maintained at 42 C and 21% O₂ and 5% CO₂ with an automated Deltavision RT Live Cell Imaging System. Close the environmental chamber and start the imaging process.
 
-** Set excitation/emission to 495 nm/519 nm and visualize the HIOs at 4X magnification. 
-** Set the location of each of the HIOs using the Deltavision-RT software and program the unit to capture a single epifluorescent image of each HIO at 5-15 minute intervals with a 0.025 s exposure duration over a 24-48 h post-treatment period.
-#+LATEX: \begin{bclogo}[logo=\bcinfo, couleurBarre=Black, noborder=true, couleur=gray!10]{     Determining fluorescence acquisition settings}
-Exposure time should be varied to suit the strength of the fluorescent signal. In general, the FITC fluorescence signal will only decrease. Therefore, to ensure maximum sensitivity, the exposure times should be adjusted such that the recorded fluorescent signal is just below the saturation point of the camera and imaging software at T = 0.
-#+LATEX: \end{bclogo}
+** Launch the softWoRx image analysis software from the desktop. Click =File= and select =Acquire (Resolve 3D)= to initialize the imaging and microscope control software.
 
-** Close the environmental chamber and start the imaging process. Ensure that the positions of the HIOs are correctly programmed by evaluating the first set of images recorded by the computer before leaving the device the record the timecourse.
-*** Make note of the unique ID number assigned to each programmed microscopy position and the images captured at that position. This will be used to associate images with specific HIOs and treatments.
-** At the end of the planned timecourse, export and save all image files as 8-bit greyscale TIFF images.
+** Set excitation/emission to FITC (475ex/523em), set the transmission power to 5%, and the Lens to 4X. Set the exposure time to 0.025 ms (*Figure 4A*).
+
+#+LATEX: \begin{bclogo}[logo=\bcinfo, couleurBarre=Black, noborder=true, couleur=gray!10]{     Determining excitation intensity and exposure time}
+Excitation intensity and exposure time should be varied to suit the strength of the fluorescent signal. In general, the FITC fluorescence signal will only decrease when measuring epithelial permeability. Therefore, to ensure maximum sensitivity, the initial exposure times should be adjusted such that the recorded fluorescent signal is just below the saturation point of the camera and imaging software.
+#+LATEX: \end{bclogo} 
+
+** Find the HIOs at 4X magnification using the digital controller attached to the microscope. Center the HIO within the viewing Field (*Figure 4A*).
+
+** Click =View= on the toolbar and select =Point list= to reveal a new window. Click =Mark point= to store the current position of the stage in the point list (*Figure 4A*)
+
+** Repeat the previous two steps until the positions of all HIOs have been recorded. Using a notepad or digital record, make note of the unique ID number assigned to each programmed microscopy position and the images captured at that position. The image files will be tagged with this ID number and it will be important to  associate image ID numbers with specific HIOs and treatments after data collection is complete.
+
+** To setup automated image collection, click =File= and then =Experiment= in the toolbar. Name the experiment with the date or another unique name.
+
+** Set the parameters for image collection by going through each of the option tabs as shown in *Figure 4B*
+
+*** Un-check =Z Sectioning= under the tab =Sectioning=
+
+*** Under the tab =Channels=, enter the parameters from the top left =Resolve 3D= window. To save time, the first row will automatically populate when the box on the left in checked.
+
+*** Under the tab =Time-lapse=, check the box labeled =Time lapse= and enter the time interval between images in the row labeled =Time-lapse= and the total duration of the experiment in the row labeled =Total Time=. The software will automatically calculate the number of Time points.
+
+*** Under the tab =Points=, Check the box labeled =Visit Point list=. You may also manually enter the specific point numbers to be included in the experiment by typing in the text box.
+
+*** Do not change the default options under the tabs =Panels= or =Actions=.
+
+*** Click on the =Run= tab. Enter the date of the experiment in the box labeled =image file name= and set the data save location under =Settings...=.
+
+*** Click on the green arrow to run the experiment macro. A time lapse counter will track the experimental progress.
+
+** At the end of the planned timecourse, export and save all image files as 24-bit RGB TIFF images (*Figure 4C*).
+
+*** On the toolbar, select =Process= followed by =Task builder=.
+
+*** In the Task builder menu, add files by navigating to the data folder specified in 5.9. Highlight all files ending in “.dv” by typing =*.dv= in the prompt. Select all (Ctl+A) and click =Add=.
+
+*** Click on =+= under the section labeled =Task=. Select =Export as...= and click on the =Options= tab.
+
+*** Set =Export Format= to =TIFF Images= and check the box below to add a =Custom Output Folder=. This is the location where the TIFF images will be exported. Select =24-bit RGB= under =TIFF output type= and click =Done=.
+
+*** Click =Submit to Queue= to run the Export Macro
+
+** Copy the TIFF images to an external driver or server if you will be performing the Post-imaging analysis on a different computer.
+
 ** The HIO tissue and media may be stored for histology \supercite{bancroft2008theory}, PCR\supercite{kennedy2011pcr}, Western blot \supercite{kurien2015western}, or other downstream analysis.
 
 * Post-imaging analysis
 ** Ensure that ImageJ \supercite{Schneider:2012} is installed and working properly on the computer to be used for analysis.
 
 #+LATEX: \begin{bclogo}[logo=\bcinfo, couleurBarre=Black, noborder=true, couleur=gray!10]{     Alternate approach}
-Fiji \supercite{Schindelin:2012} is an alternate distribution of the ImageJ core programming that will work equally well for this analysis.
+Fiji \supercite{Schindelin:2012} is an alternate distribution of the ImageJ core program that will work equally well for this analysis.
 #+LATEX: \end{bclogo}
 
-** Start the batch analysis by selecting "Process" then "Batch" and finally "Macro.." from the ImageJ menu
-** Set the "Input..." to the directory containing the TIFF images collected during the experimental timecourse. Open the "thesholdmeasure.ijm" ImageJ macro file or directly copy/paste the macro code into the window. Click "Process" to begin processing the files.
+** Start the batch analysis by selecting =Process= then =Batch= and finally =Macro...= from the ImageJ menu
+** Set the =Input...= to the directory containing the TIFF images collected during the experimental timecourse. Open the =thesholdmeasure.ijm= ImageJ macro file or directly copy/paste the macro code into the window. Click =Process= to begin processing the files.
 #+LATEX: \begin{bclogo}[logo=\bcinfo, couleurBarre=Black, noborder=true, couleur=gray!10]{     Setting the image threshold value}
-The minimum threshold value /x/ (=setThreshold(x,255);=) can be set to any number 0-255 and should be adjusted so as to eliminate background fluorescence. Values < 100 are recommended. To empirically determine the appropriate threshold value, run the imaging macro on a single image representing an organoid with no fluorescent signal. The mean intensity of this image can serve as a guide for setting the threshold appropriately.
+The minimum threshold value /x/ (=setThreshold(x,255);=) can be set to any number 0-255 and should be adjusted so as to eliminate background fluorescence. Values < 100 are recommended. To empirically determine the appropriate threshold value, run the imaging macro on a single image representing an organoid with no fluorescent signal. The mean intensity of this image can serve as a guide for setting the threshold appropriately. For the representative analysis presented below, the threshold was set to =42=.
 #+LATEX: \end{bclogo}
 
 #+BEGIN_SRC sh :tangle thresholdmeasure.ijm :exports none
@@ -297,7 +342,7 @@ macro "Threshold measurement" {
 }
 #+END_SRC
 ** ImageJ will produce a large table containing the area of all pixels within the threshold intensity range, and the the mean, median, minimum, and maximum (limit) intensity value for the area within the threshold intensity limits. Save this as a CSV or Microsoft Excel data table.
-** Change in intensity over time can be computed in Excel by manipulating the data table \supercite{winston2016microsoft} or can be automated using a suitable programming language. An example analysis script written in R\supercite{CRAN:2017} is provided with this manuscript.
+** Change in intensity over time can be computed in Excel by manipulating the data table \supercite{winston2016microsoft} to perform the calculation below or can be automated using a suitable programming language. An example analysis script written in R\supercite{CRAN:2017} is provided with this manuscript.
 #+LATEX: \begin{bclogo}[logo=\bccrayon, couleurBarre=gray!10, noborder=true, couleur=gray!10]{     Elimination time (\textit{t}$_\frac{1}{2}$) derrivation}
 For each HIO, relative fluorescence intensity may be quantified as \(\frac{FITC_{t=n}}{FITC_{t=0}}\). Elimination time\supercite{rosenbaum2016basic} (\textit{t}$_\frac{1}{2}$) of FITC-dextran in the HIO lumen was calculated as follows:
 
@@ -327,8 +372,8 @@ The reduced equation is thus:
 #+LATEX: \end{bclogo}
 
 #+LATEX:\section*{REPRESENTATIVE RESULTS} 
-HIOs were differentiated from human pluripotent stem cells and cultured in matrigel as previously described \supercite{Spence:2011,McCracken:2011}. After 4 weeks in culture, the HIOs had expanded sufficiently to allow for microinjection. HIOs were microinjected with 4 kDa FITC-conjugated dextran suspended in PBS or PBS containing /Clostridium difficile/ toxin TcdA. /C. difficile/ is an opportunistic gastrointestinal pathogen that exhibits toxin-mediated epithelial toxicity in HIOs \supercite{Leslie:2015}. As a positive control, ethylene glycol-bis(\beta{}-aminoethyl ether)-N,N,N',N'-tetraacetic acid (EGTA) was added to the HIO culture media in a subset of HIOs injected with PBS and FITC-dextran. EGTA is a calcium chelator that causes rapid de-polymerization of the actin cytoskeleton \supercite{Selden:1983}. FITC fluorescence was monitored in real time on a live imaging microscope within a controlled environmental chamber and images were captured in 10 minute intervals.
-Post-hoc analysis of imaging data revealed substantial differences in the retention of FITC fluorescence (*Figure 4*). HIOs injected with PBS retained nearly all of the fluorescent signal present at /t/ = 0, however HIOs that were also injected with TcdA of treated with EGTA exhibited a substantial decrease in fluorescent intensity by 8 hours post-microinjection (*Figure 4A*). Imaging data were quantified for all HIOs at all time points to generate a high-resolution dataset representing the relative change in fluorescent intensity over time in each experimental condition (*Figure 4B*). Differences in epithelial permeability were evaluated by calculating the mean elimination time (\textit{t}$_\frac{1}{2}$) of FITC for each treatment group (*Table 1*) and comparing differences in \textit{t}$_\frac{1}{2}$ between groups using the Student's /t/-test. Control-treated HIOs retained the majority of FITC fluorescent signal for more than 16 hours (\textit{t}$_\frac{1}{2}$ = src_R[:session *R* :exports results :results text]{format(as.numeric(data.thalf.stats[1,2]), digits = 2)} $\pm$ src_R[:session *R* :exports results :results text]{format(as.numeric(data.thalf.stats[1,5]), digits = 2)} h). Treatment with EGTA significantly reduced FITC-dextran elimination time relative to control HIOs (\textit{t}$_\frac{1}{2}$ = src_R[:session *R* :exports results :results text]{format(as.numeric(data.thalf.stats[2,2]), digits = 2)} $\pm$ src_R[:session *R* :exports results :results text]{format(as.numeric(data.thalf.stats[2,5]), digits = 2)} h; /P/ = \num{src_R[:session *R* :exports results :results text]{format(test1, digits = 2)}}). Consistent with previously published results\supercite{Leslie:2015}, microinjection of TcdA significantly increased epithelial barrier permeability relative to control treatment (\textit{t}$_\frac{1}{2}$ = src_R[:session *R* :exports results :results text]{format(as.numeric(data.thalf.stats[3,2]), digits = 2)} $\pm$ src_R[:session *R* :exports results :results text]{format(as.numeric(data.thalf.stats[3,5]), digits = 2)} h; /P/ = \num{src_R[:session *R* :exports results :results text]{format(test2, digits = 2)}}). Thus both external (EGTA) and microinjected (TcdA) compounds are capable of inducing significant alterations in epithelial barrier permeability in HIOs. These results suggests that the effects of a wide range of pharmacologic agents, metabolites, bacterial products, cytokines, growth factors, and other compounds on epithelial barrier function may be evaluated using this approach.
+HIOs were differentiated from human pluripotent stem cells and cultured in matrigel as previously described \supercite{Spence:2011,McCracken:2011}. After 4 weeks in culture, the HIOs had expanded sufficiently to allow for microinjection. HIOs were microinjected with 4 kDa FITC-conjugated dextran suspended in PBS or PBS containing /Clostridium difficile/ toxin TcdA. /C. difficile/ is an opportunistic gastrointestinal pathogen that exhibits toxin-mediated epithelial toxicity in HIOs \supercite{Leslie:2015}. As a positive control, EGTA was added to the HIO culture media in a subset of HIOs injected with PBS and FITC-dextran. EGTA is a calcium chelator that causes rapid de-polymerization of the actin cytoskeleton \supercite{Selden:1983}. FITC fluorescence was monitored in real time on a live imaging microscope within a controlled environmental chamber and images were captured in 10 minute intervals.
+Post-hoc analysis of imaging data revealed substantial differences in the retention of FITC fluorescence (*Figure 5*). HIOs injected with PBS retained nearly all of the fluorescent signal present at /t/ = 0, however HIOs that were also injected with TcdA of treated with EGTA exhibited a substantial decrease in fluorescent intensity by 8 hours post-microinjection (*Figure 5A*). Imaging data were quantified for all HIOs at all time points to generate a high-resolution dataset representing the relative change in fluorescent intensity over time in each experimental condition (*Figure 5B*). Differences in epithelial permeability were evaluated by calculating the mean elimination time (\textit{t}$_\frac{1}{2}$) of FITC for each treatment group (*Table 1*) and comparing differences in \textit{t}$_\frac{1}{2}$ between groups using the Student's /t/-test. Control-treated HIOs retained the majority of FITC fluorescent signal for more than 16 hours (\textit{t}$_\frac{1}{2}$ = src_R[:session *R* :exports results :results text]{format(as.numeric(data.thalf.stats[1,2]), digits = 2)} $\pm$ src_R[:session *R* :exports results :results text]{format(as.numeric(data.thalf.stats[1,5]), digits = 2)} h). Treatment with EGTA significantly reduced FITC-dextran elimination time relative to control HIOs (\textit{t}$_\frac{1}{2}$ = src_R[:session *R* :exports results :results text]{format(as.numeric(data.thalf.stats[2,2]), digits = 2)} $\pm$ src_R[:session *R* :exports results :results text]{format(as.numeric(data.thalf.stats[2,5]), digits = 2)} h; /P/ = \num{src_R[:session *R* :exports results :results text]{format(test1, digits = 2)}}). Consistent with previously published results\supercite{Leslie:2015}, microinjection of TcdA significantly increased epithelial barrier permeability relative to control treatment (\textit{t}$_\frac{1}{2}$ = src_R[:session *R* :exports results :results text]{format(as.numeric(data.thalf.stats[3,2]), digits = 2)} $\pm$ src_R[:session *R* :exports results :results text]{format(as.numeric(data.thalf.stats[3,5]), digits = 2)} h; /P/ = \num{src_R[:session *R* :exports results :results text]{format(test2, digits = 2)}}). Thus both external (EGTA) and microinjected (TcdA) compounds are capable of inducing significant alterations in epithelial barrier permeability in HIOs. These results suggests that the effects of a wide range of pharmacologic agents, metabolites, bacterial products, cytokines, growth factors, and other compounds on epithelial barrier function may be evaluated using this approach.
 
 
 #+begin_src sh :tangle imagej-threshold-quant.sh :eval no :exports none :shebang "#!/bin/bash"
@@ -632,7 +677,7 @@ This protocol establishes a general purpose method for the microinjection of hPS
 
 There are several steps which are critical to the application of this technique. Access to high quality hPSC- or tissue derived HIO tissue should be established prior to extensive experimentation with microinjection. HIO macrostructure may be heterogenous, with variation in both size and shape, although tissue identity and cellular morphology is highly reproducible when utilizing established methodology to generate HIOs \supercite{McCracken:2011}. Spherical HIOs consisting of a single semi-transparent lumen and measuring approximately 1 mm in diameter are ideal for microinjection and measurement of luminal fluorescence in real-time. In some cases microinjection will fail, resulting in collapse of the HIO or obvious leakage of injected material. Failed HIOs can be removed from the culture well at the user's discretion using a standard micropipettor. Consider the objective lenses available on an imaging platform when selecting HIOs for microinjection and imaging. In general 2-4X objective lenses are ideal for capturing the complete HIO fluorescent signal, although a 10X objective may be used if low power lenses are not available or if the available HIOs are < 1mm in diameter. Imaging software must allow for the automated capture of fluorescent images at defined points over time. 
 
-Several modifications of this protocol are possible in order to suit the experimental requirements. For example, the results of barrier function tests may be dependent on the molecular size of the compounds in use \supercite{Vojdani:2013} and it may be appropriate to test dextran preparations of varying molecular weight. When performing microinjection of live bacteria\supercite{Hill:2017,Leslie:2015,Forbester:2015,Engevik:2015,Engevik:2013,Karve:2017}, it may be necessary to add penicillin and streptomycin or gentamicin to the HIO culture media prior to or after microinjection. The outside of the microcapillary will become contaminated during filling with the bacterial culture suspension and this may be transferred to the HIO media. Alternately, microinjection can be performed on HIOs suspended in matrigel without media, adding the media after the microinjection is completed. This may limit contamination to the matrigel and external face of the HIO. When planning microbial growth assays, it may be necessary to remove antibiotics in the media after 1-2 h to avoid slowing or preventing growth of microinjected organisms. 
+Several modifications of this protocol are possible in order to suit the experimental requirements. For example, the results of barrier function tests may be dependent on the molecular size of the compounds in use \supercite{Vojdani:2013} and it may be appropriate to test dextran preparations of varying molecular weight. n addition, brightfield imaging may be performed in addition to fluorescence  imaging as an indicator of the overall structural integrity of the tissue \supercite{Leslie:2015}, When performing microinjection of live bacteria\supercite{Hill:2017,Leslie:2015,Forbester:2015,Engevik:2015,Engevik:2013,Karve:2017}, it may be necessary to add penicillin and streptomycin or gentamicin to the HIO culture media prior to or after microinjection. The outside of the microcapillary will become contaminated during filling with the bacterial culture suspension and this may be transferred to the HIO media. Alternately, microinjection can be performed on HIOs suspended in matrigel without media, adding the media after the microinjection is completed. This may limit contamination to the matrigel and external face of the HIO. When planning microbial growth assays, it may be necessary to remove antibiotics in the media after 1-2 h to avoid slowing or preventing growth of microinjected organisms. 
 
 Finally, recognizing that not all researchers will have access to microscopy equipment suited to /in vitro/ imaging, it is important to point out that the procedures outlined in this protocol for collecting fluorescence data can be applied to images taken at fixed timepoints using standard epifluorescent microscopy without automated image capturing or environmental controls. Examples of this approach can be found in the reports by Leslie and Huang /et al./\supercite{Leslie:2015}, who examined /C. difficile/ toxin activity in hPSC-derived intestinal organoids, and Karve and Pradan /et al./\supercite{Karve:2017}, who examined epithelial barrier permeability in similar hPSC-derived intestinal organoids microinjected with live /E. coli/. Manual operation of imaging equipment may result in greater variation and difficulty in normalizing the fluorescent signal. When performing manual imaging of FITC-dextran injected HIOs it is essential to maintain fixed magnification, fluorescent excitation intensity, and exposure times throughout the experiment to avoid distorting the fluorescent intensity measurements. 
 #+BEGIN_LaTeX
@@ -660,10 +705,17 @@ Biosafety cabinet & Labconco & Cell Logic+\\
 \end{table}
 #+END_LaTeX
 
+#+LATEX:\section*{DATA REPOSITORY}
+The complete data files and data analysis code used in this manuscript are available at  https://github.com/hilldr/HIO_microinjection.
+
 
 #+LATEX:\section*{ACKNOWLEDGMENTS}
-The authors would like to thank Drs. Stephanie Spohn and Basel Abuaita for many useful discussions on organoid microinjection.
+The authors would like to thank Drs. Stephanie Spohn and Basel Abuaita for many useful discussions on organoid microinjection. Finally, we would also like to thank our anonymous reviewers for many helpful and insightful suggestions that led to improvements in the manuscript.
 JRS is supported by the Intestinal Stem Cell Consortium (U01DK103141), a collaborative research project funded by the National Institute of Diabetes and Digestive and Kidney Diseases (NIDDK) and the National Institute of Allergy and Infectious Diseases (NIAID). JRS and VBY are supported by the NIAID Novel, Alternative Model Systems for Enteric Diseases (NAMSED) consortium (U19AI116482). DRH is supported the Mechanisms of Microbial Pathogenesis training grant from the National Institute of Allergy and Infectious Disease (NIAID, T32AI007528) and the Clinical and Translational Science award to the Michigan Institute for Clinical and Health Research (UL1TR000433). 
+
+#+LATEX:\section*{DISCLOSURES}
+The authors have no competing financial interests or other conflicts of interest to disclose.
+
 #+LATEX:\printbibliography
 * Results Notes							   :noexport:
 (Example Representative Results section: www.jove.com/52010)
