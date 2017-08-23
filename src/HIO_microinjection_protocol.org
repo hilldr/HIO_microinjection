@@ -134,7 +134,7 @@ Normal, de-identified human adult intestinal tissue was obtained from deceased o
 \begin{figure}
 \centering
 \includegraphics[width=0.9\linewidth]{./img/figure1.pdf}
-\caption{Basic layout of a microinjector and micromanipulator for HIO microinjection.}
+\caption{Basic layout of a microinjector and micromanipulator for HIO microinjection. This image shows the complete complement of equipment used for performing microinjection of HIOs. Key components are labeled and ordering information can be found in the Materials table.}
 \end{figure}
 #+END_LATEX
 ** Clean the microinjection setup with 70% ethanol or other disinfectant prior to experimental use. Avoid prolonged exposure to disinfectants containing bleach, which may corrode the microinjection equipment.
@@ -178,7 +178,7 @@ This protocol was developed using stem-cell derived HIOs and the representative 
 \begin{figure}
 \centering
 \includegraphics[width=0.6\linewidth]{./img/figure2.pdf}
-\caption{Sutter Instrument Co. P-30 Micropipette puller. The copper heating coil \textbf{hc}, top clamp \textbf{c1}, bottom clamp (\textbf{c2}), puller arm (\textbf{pa}), heat selection toggle (\textbf{ht}) are identified by the arrows. The correct setting for HEAT 1 and PULL are indicated in red text. The \textbf{inset} shows a correctly mounted glass microcapillary ready for heating.}
+\caption{Sutter Instrument Co. P-30 Micropipette puller. The copper heating coil \textbf{hc}, top clamp \textbf{c1}, bottom clamp (\textbf{c2}), puller arm (\textbf{pa}), heat selection toggle (\textbf{ht}) are identified by the arrows. The correct setting for HEAT 1 and PULL are indicated in red text. The \textbf{inset} shows a correctly mounted glass filament ready for heating.}
 \end{figure}
 #+END_LATEX
 
@@ -222,8 +222,8 @@ Once the microcapillary has been prepared, installed, and tested you may begin m
 #+BEGIN_LATEX
 \begin{figure}
 \centering
-\includegraphics[width=0.35\linewidth]{./img/figure3.pdf}
-\caption{Brightfield image of a tissue-derived human intestinal organoids after microinjection of FITC-dextran. Note that the fluorescence signal is apparent even without the use of a specific filter set. This coloration aids microinjection precision. 3X magnification}
+\includegraphics[width=0.95\linewidth]{./img/figure3.pdf}
+\caption{\textbf{A} Image demonstrating the positioning of the glass microcapillary just prior to insertion into the HIO and microinjection. \textbf{B} Brightfield image of a tissue-derived human intestinal organoids after microinjection of FITC-dextran. Note that the fluorescence signal is apparent even without the use of a specific filter set. This coloration aids microinjection precision. 3X magnification}
 \end{figure}
 #+END_LATEX
 
