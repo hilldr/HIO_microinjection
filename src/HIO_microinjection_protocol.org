@@ -281,6 +281,14 @@ Excitation intensity and exposure time should be varied to suit the strength of 
 
 ** Click =View= on the toolbar and select =Point list= to reveal a new window. Click =Mark point= to store the current position of the stage in the point list (*Figure 4A*)
 
+#+BEGIN_LATEX
+\begin{figure}
+\centering
+\includegraphics[width=0.95\linewidth]{./img/figure4.pdf}
+\caption{Live imaging workflow. \textbf{A} Screenshot illustrating the steps necessary to set the microscope parameters, find the HIOs on the slide, and save the position of the stage for each HIO to be imaged. \textbf{B} Pre-imaging settings for capturing the FITC channel at regular intervals at each of the positions specified in A. \textbf{C} Post-imaging export of DV format data files as TIFF images with one TIFF image per HIO per time point.}
+\end{figure}
+#+END_LATEX
+
 ** Repeat the previous two steps until the positions of all HIOs have been recorded. Using a notepad or digital record, make note of the unique ID number assigned to each programmed microscopy position and the images captured at that position. The image files will be tagged with this ID number and it will be important to  associate image ID numbers with specific HIOs and treatments after data collection is complete.
 
 ** To setup automated image collection, click =File= and then =Experiment= in the toolbar. Name the experiment with the date or another unique name.
@@ -548,7 +556,7 @@ test3 <- t.test(data.thalf[data.thalf$treatment == "EGTA",]$thalf,
 #+begin_src R :session *R* :results silent :exports none :eval yes :tangle image_analysis.R
 ## Plotting ####################################################################
 library(ggplot2)
-## Import Figure 4A and convert to vector graphics
+## Import Figure 5A and convert to vector graphics
 library(grid)
 library(gridSVG)
 library(grConvert)
@@ -594,7 +602,7 @@ fig4a <- qplot(1:100, 1:100, alpha = I(0)) +
                                              hjust  =  0), 
                    legend.position = "none")
 
-## Setup for figure 4B
+## Setup for figure 5B
 fig4b <- ggplot(data = data_mean, aes(x = hr, y = mean, fill = treatment)) +
     geom_errorbar(aes(ymin = mean - sem,
                       ymax = mean + sem,
@@ -637,7 +645,7 @@ fig4b <- ggplot(data = data_mean, aes(x = hr, y = mean, fill = treatment)) +
 
 ## setup multipanel PDF plot
 layout <- rbind(c(rep(1, times = 4),rep(2, times = 5)))
-pdf(file = "../results/figure4.pdf", width = 8800/300, height = 4000/300, onefile = FALSE)
+pdf(file = "../results/figure5.pdf", width = 8800/300, height = 4000/300, onefile = FALSE)
 gridExtra::grid.arrange(fig4a,fig4b, layout_matrix = layout)
 dev.off()
 #+end_src
