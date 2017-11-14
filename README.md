@@ -45,4 +45,6 @@ make pdf
 
 ## Citing this protocol
 
-If you find this protocol useful, please cite our work in your paper. A version of this manuscript is currently undergoing peer review. The citation and link will be made available here at the appropriate time.
+Hill, D. R., Huang, S., Tsai, Y. H., Spence, J. R., Young, V. B. Real-time Measurement of Epithelial Barrier Permeability in Human Intestinal Organoids. J. Vis. Exp. (), e56960, doi:10.3791/56960 (2017).
+
+https://www.jove.com/video/56960/real-time-measurement-epithelial-barrier-permeability-human
